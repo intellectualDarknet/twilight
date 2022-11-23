@@ -1,0 +1,26 @@
+
+.toggler {
+  width: 82px;
+  height: 40px;
+  padding: 2px;
+  background-color: white;
+  border-radius: 20px;
+  box-sizing: border-box;
+
+  &__button {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    background-color: grey;
+    transition: all 0.2s ease-in;
+
+    &-left {
+      transform: translateX(-18px);
+    }
+
+    &-right {
+      transform: translate(18px);
+    }
+  }
+
+}

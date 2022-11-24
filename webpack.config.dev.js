@@ -2,6 +2,8 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
@@ -9,6 +11,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js'
+  },
+
+  optimization: {
+    splitChunks: {
+      chunks: 'async'
+    },
+    // only for prod
+    // minimizer: [new OptimizeCssAssetWebpackPlugin(), new TerserWebpackPlugin]
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -29,34 +39,37 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|ts)x?$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
+        use: ["babel-loader"],
+    },
+    {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ["ts-loader"],
+    },
       {
-        test: /\.css$/i,
+        test: /\.s[ac]ss$/,
         use: [ 
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hrm: true,
-              reloadAll: true,
-            },
           },
           'css-loader',
           'sass-loader'
         ],
       },
       {
-        test: /\.(png|jpg|svg|gif|ttf|woff|woff2|eot)$/,
+        test: /\.(png|jpg|svg|gif)$/,
+        use: ['file-loader'],
+      },
+      {
+        test: /\.(ttf|woff|woff2|eot)$/,
         use: ['file-loader'],
       },
     ],
   },
   resolve: {
-    extensions:  ['.js', '.ts', '.tsx'],
+    extensions:  ['.tsx', '.ts', '.jsx', '.js'],
   },
   // TODO: clarify how to work with chants
   // optimization: {

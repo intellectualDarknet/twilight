@@ -10,10 +10,10 @@ module.exports = {
     'standard-with-typescript',
     'prettier',
   ],
-
   overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    project: ['./tsconfig.json'],
     ecmaFeatures: {
       jsx: true,
     },

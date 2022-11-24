@@ -1,12 +1,16 @@
 import React from 'react';
 
+
 export const App = () => {
 
-  console.log(123);
+  const [count, setCount] = React.useState(0)
+
   return (
     <>
       <img src="./styles/bleach.jpg" alt="" />
-      <h1>Hello React!!!</h1>
+      <h1>Hello React {count}</h1>
+      <button onClick={() => {setCount(prev => ++prev)}}>increment</button>
+      <button onClick={() => {setCount(prev => --prev)}}>Decrement</button>
     </>
   )
 }

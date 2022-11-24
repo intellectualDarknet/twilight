@@ -22,6 +22,7 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin({
+      template: './src/index.html',
       minify: {
         collapseWhitespace: false
       },

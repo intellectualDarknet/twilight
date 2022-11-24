@@ -7,12 +7,12 @@ module.exports = {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   devServer: {
-    static: {       
-      directory: path.resolve(__dirname, './dist')
-    }
+    static: {
+      directory: path.resolve(__dirname, './dist'),
+    },
   },
   module: {
     rules: [
@@ -25,15 +25,12 @@ module.exports = {
       },
       {
         test: /\.(sc|c)ss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
-      }
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
   },
-  plugins: [
-    new HTMLWebpackPlugin(),
-    new CleanWebpackPlugin()
-  ]
+  plugins: [new HTMLWebpackPlugin(), new CleanWebpackPlugin()],
 }

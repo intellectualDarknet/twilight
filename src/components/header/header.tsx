@@ -1,11 +1,12 @@
 import React from 'react'
-
+import Button from '../button/button'
+import Input from '../input/input'
 // interface Props {}
 
 // interface State {}
 
 class Header extends React.Component {
-  render() {
+  render(): JSX.Element {
     return (
       <div className='header'>
         <div className='header__wrapper'>
@@ -15,8 +16,8 @@ class Header extends React.Component {
           </div>
           <div className='header__writing'>FIND YOUR MOViE</div>
           <div className='header__main'>
-            <div className='header__input'></div>
-            <div className='header__search'>Search</div>
+            <Input placeholder={'What do you want to watch?'} />
+            <Button type='full' text='SEARCH' />
           </div>
         </div>
       </div>

@@ -1,18 +1,22 @@
 @import './color/colors.scss';
 
 .button {
+  padding: 16px 48px;
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
+  letter-spacing: 0px;
   text-align: center;
   text-transform: uppercase;
   border-radius: 4px;
   border: 1px solid $color-red;
+  background: $color-red;
+  color: $color-white;
 
   &_full {
    background-color: transparent;
    color: $color-red;
-  }
+  } 
 
   &_hollow {
     background-color: $color-red;
@@ -21,6 +25,13 @@
 }
 
 
-.button_hollow {
+.func-search {
+  height: 57px;
+  display: flex;
+  justify-content: space-between;
+
+  &__search {
+
+  }
 
 }

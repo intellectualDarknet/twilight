@@ -69,5 +69,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      '@color': path.resolve(__dirname, './src/styles/color')
+    }
   },
 }

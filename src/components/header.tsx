@@ -13,7 +13,11 @@ class Header extends React.Component {
             <span className='header__logo-color'>netflix</span>roulette
             <button className='header__button'>+ add movie</button>
           </div>
-          <div className='header__writing'></div>
+          <div className='header__writing'>FIND YOUR MOViE</div>
+          <div className='header__main'>
+            <div className='header__input'></div>
+            <div className='header__search'>Search</div>
+          </div>
         </div>
       </div>
     )

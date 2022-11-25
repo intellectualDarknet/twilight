@@ -13,12 +13,6 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: `[name].[hash].js`,
   },
-  
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, './dist'),
-    },
-  },
   plugins: [
     new HTMLWebpackPlugin({
       template: './src/index.html',

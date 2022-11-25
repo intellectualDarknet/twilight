@@ -11,12 +11,6 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
   },
-
-  optimization: {
-    splitChunks: {
-      chunks: 'async',
-    },
-  },
   plugins: [
     new HTMLWebpackPlugin({
       template: './src/index.html',
@@ -36,7 +30,6 @@ module.exports = {
             to: path.resolve(__dirname, './dist')
           }
         ]
-        
       },
     )
   ],
@@ -76,21 +69,4 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
   },
-  // TODO: clarify how to work with chants
-  // optimization: {
-  //   splitChunks: {
-  //     cacheGroups: {
-  //       vendor: {
-  //         name: "node_vendors",
-  //         test: /[\\/]node_modules[\\/]/,
-  //         chunks: "all",
-  //       },
-  //       common: {
-  //         test: /[\\/]src[\\/]components[\\/]/,
-  //         chunks: "all",
-  //         minSize: 0,
-  //       },
-  //     }
-  //   },
-  // },
 }

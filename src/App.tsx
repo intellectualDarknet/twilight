@@ -5,7 +5,6 @@ export const App = (): ReactElement<any, any> => {
 
   return (
     <>
-      <img src='./styles/bleach.jpg' alt='' />
       <h1>Hello React {count}</h1>
       <button
         onClick={() => {
@@ -21,6 +20,7 @@ export const App = (): ReactElement<any, any> => {
       >
         Decrement
       </button>
+      <img src='./bleach.jpg' alt='some alt' />
     </>
   )
 }

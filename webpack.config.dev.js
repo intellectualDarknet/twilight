@@ -2,8 +2,7 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-// const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin')
-// const TerserWebpackPlugin = require('terser-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
@@ -17,8 +16,6 @@ module.exports = {
     splitChunks: {
       chunks: 'async',
     },
-    // only for prod
-    // minimizer: [new OptimizeCssAssetWebpackPlugin(), new TerserWebpackPlugin]
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -31,6 +28,17 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
+    new CopyWebpackPlugin(
+      {
+        patterns: [
+          {
+            from: path.resolve(__dirname, './src/assets/imgs'),
+            to: path.resolve(__dirname, './dist')
+          }
+        ]
+        
+      },
+    )
   ],
   devServer: {
     static: {
@@ -58,10 +66,6 @@ module.exports = {
           'css-loader',
           'sass-loader',
         ],
-      },
-      {
-        test: /\.(png|jpg|svg|gif)$/,
-        use: ['file-loader'],
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/,

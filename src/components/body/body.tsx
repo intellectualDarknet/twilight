@@ -1,19 +1,30 @@
+import React from 'react'
 import Modes from '../modes/modes'
+import './body.scss'
 
-interface IBodyProps {}
+interface IBodyProps {
+  props?: string
+}
 
-interface IBodyState {}
+interface IBodyState {
+  state?: string
+}
 
 class Body extends React.Component<IBodyProps, IBodyState> {
   // constructor(props: IBodyProps) {
   //   super(props);
   //   this.state = { :  };
   // }
-  render() {
+  render(): JSX.Element {
     return (
-      <>
+      <div className='body'>
         <Modes />
-      </>
+        <div className='body__underline'></div>
+        <div className='body__found'>
+          <span className='body__number'></span>
+          movies found
+        </div>
+      </div>
     )
   }
 }

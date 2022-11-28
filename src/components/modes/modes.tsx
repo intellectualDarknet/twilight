@@ -1,8 +1,13 @@
 import React from 'react'
+import './modes.scss'
 
-interface IModesProps {}
+interface IModesProps {
+  props?: string
+}
 
-interface IModesState {}
+interface IModesState {
+  state?: string
+}
 
 class Modes extends React.Component<IModesProps, IModesState> {
   // constructor(props: IModesProps) {
@@ -14,15 +19,15 @@ class Modes extends React.Component<IModesProps, IModesState> {
       <div className='modes'>
         <div className='modes__flex'>
           <div className='modes__types'>
-            <div className='modes__type'>All</div>
-            <div className='modes__type'>Documentary</div>
-            <div className='modes__type'>Comedy</div>
-            <div className='modes__type'>Horror</div>
-            <div className='modes__type'>Crime</div>
+            <span className='modes__type'>All</span>
+            <span className='modes__type'>Documentary</span>
+            <span className='modes__type'>Comedy</span>
+            <span className='modes__type'>Horror</span>
+            <span className='modes__type'>Crime</span>
           </div>
           <div className='modes__sort-n-date'>
-            <div className='modes__type'>Sort</div>
-            <div className='modes__sort'>Sort</div>
+            <span className='modes__type'>Sort By</span>
+            <span className='modes__sort'>Release Date</span>
           </div>
         </div>
       </div>

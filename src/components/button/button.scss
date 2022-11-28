@@ -1,4 +1,4 @@
-@import './color/colors.scss';
+@import '@color/colors.scss';
 
 .button {
   padding: 16px 48px;
@@ -14,24 +14,12 @@
   color: $color-white;
 
   &_full {
-   background-color: transparent;
-   color: $color-red;
+   background-color: $color-red;
+   color: $color-white;
   } 
 
   &_hollow {
-    background-color: $color-red;
-    color: $color-white;
+    background: rgba(96, 96, 96, 0.68);
+    color: $color-red;
   }
-}
-
-
-.func-search {
-  height: 57px;
-  display: flex;
-  justify-content: space-between;
-
-  &__search {
-
-  }
-
 }

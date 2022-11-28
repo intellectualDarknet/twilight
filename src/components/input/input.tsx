@@ -1,4 +1,6 @@
 import React from 'react'
+import './input.scss'
+
 interface IPropsInput {
   placeholder?: string
   type?: string
@@ -17,7 +19,11 @@ class Input extends React.Component<IPropsInput, IStateInput> {
       <>
         <div className='entry'>
           <div className='entry__descr'></div>
-          <input placeholder={this.props.placeholder} type={this.props.type}></input>
+          <input
+            className='entry__input'
+            placeholder={this.props.placeholder}
+            type={this.props.type}
+          ></input>
         </div>
       </>
     )

@@ -1,0 +1,31 @@
+@import '@color/colors.scss';
+
+.modes {
+
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0px;
+  }
+
+  &__type {
+    font-weight: 500;
+    padding: 0 10px;
+    color: $color-white;
+    opacity: 0.6;
+
+    &__active {
+      opacity: 1;
+    }
+  }
+
+  &__sort {
+    color: $color-white;
+    opacity: 0.6;
+
+    &__active {
+      opacity: 1;
+    }
+  }
+}

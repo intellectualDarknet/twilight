@@ -1,10 +1,12 @@
 import React, { ReactElement } from 'react'
-import Header from './components/header/header'
+import Modal from './components/modal/modal'
+import UI from './components/ui/ui'
 
 export const App = (): ReactElement<any, any> => {
   return (
     <>
-      <Header />
+      <Modal />
+      <UI />
     </>
   )
 }

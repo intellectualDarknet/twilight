@@ -35,5 +35,6 @@ module.exports = {
     quotes: ['error', 'single'],
     'no-duplicate-imports': 'error',
     'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 1, maxEOF: 1 }],
+    '@typescript-eslint/strict-boolean-expressions': 'warn '
   },
 }

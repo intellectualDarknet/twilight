@@ -3,12 +3,16 @@ import Body from '../body/body'
 import Header from '../header/header'
 import './ui.scss'
 
-class UI extends React.Component {
+interface IUIProps {
+  onInputChange: Function
+}
+
+class UI extends React.Component<IUIProps> {
   render(): JSX.Element {
     return (
       <div className='ui'>
         <div className='ui__wrapper'>
-          <Header />
+          <Header onInputChange={this.props.onInputChange} />
           <Body />
         </div>
       </div>

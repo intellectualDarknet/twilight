@@ -17,8 +17,9 @@
   }
 
   &__input {
+    color: $color-white;
     max-height: 57px;
-    width:100%;
+    width: 100%;
     box-sizing: border-box;
     font-size: 20px;
     font-weight: 400;
@@ -32,6 +33,7 @@
     
     &:focus {
       color: $color-white;
+      opacity: 1;
     }
   }
 }

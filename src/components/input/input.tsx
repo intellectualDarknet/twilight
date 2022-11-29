@@ -8,6 +8,7 @@ interface IPropsInput {
   value?: string
   description?: string
   class?: null | undefined | string
+  name?: string;
 }
 interface IStateInput {
   state?: string
@@ -24,8 +25,9 @@ class Input extends React.Component<IPropsInput, IStateInput> {
         <div className='entry'>
           <div className='entry__descr'>{this.props.description}</div>
           <input
+            name={this.props.name}
             value={this.props.value}
-            onChange={(event) => this.props.onInputChange!(event.target.value)}
+            onChange={(event) => this.props.onInputChange!(event)}
             className={'entry__input ' + (this.props.class ? this.props.class : '')}
             placeholder={this.props.placeholder}
             type={this.props.type}

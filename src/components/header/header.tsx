@@ -1,9 +1,11 @@
 import React from 'react'
+import AddEditMovie from '../addeditmovie/addeditmovie'
 import Button from '../button/button'
 import Input from '../input/input'
 import './header.scss'
 
 interface IHeaderProps {
+  showModal: Function
   onInputChange: Function
 }
 
@@ -17,7 +19,7 @@ class Header extends React.Component<IHeaderProps> {
               <span className='header__logo-color'>netflix</span>roulette
             </div>
             <Button
-              onClick={() => {}}
+              onClick={() => {this.props.showModal(<AddEditMovie/>)}}
               type='hollow'
               text='+ add movie'
               class='header__button'

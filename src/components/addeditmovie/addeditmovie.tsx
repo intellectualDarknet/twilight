@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import Button from '../button/button'
 import Input from '../input/input'
 import './addeditmovie.scss'
@@ -8,8 +8,13 @@ interface IAddEditMovieProps {
 }
 
 interface IAddEditMovieState {
-  login: string
-  password: string
+  title: string,
+  date: string,
+  url: string
+  rating: string
+  genre: string
+  runtime: string
+  textarea: string
 }
 
 export default class AddEditMovie extends React.Component<IAddEditMovieProps, IAddEditMovieState> {
@@ -17,25 +22,23 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
     super(props)
 
     this.state = {
-      login: '',
-      password: '',
+      title: '',
+      date: '',
+      url:  '',
+      rating: '',
+      genre: '',
+      runtime: '',
+      textarea: '',
     }
   }
 
-  public passwordChange = (value: string): void => {
+  public onInputChange = (event: SyntheticEvent): void => {
+    const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name
+    const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value
     this.setState((prev) => {
       return {
         ...prev,
-        password: value,
-      }
-    })
-  }
-
-  public loginChange = (value: string): void => {
-    this.setState((prev) => {
-      return {
-        ...prev,
-        login: value,
+        [name]: value,
       }
     })
     console.log(this.state)
@@ -43,44 +46,109 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
 
   public reset = (): void => {
     this.setState({
-      login: '',
-      password: '',
+      title: '',
+      date: '',
+      url:  '',
+      rating: '',
+      genre: '',
+      runtime: '',
+      textarea: '',
     })
   }
 
   public submit = (): void => {
-    this.setState({
-      login: '',
-      password: '',
-    })
+   // TODO request 
+    this.reset()
   }
 
   render(): JSX.Element {
     return (
-      <form className='login'>
-        <div className='login__wrapper'>
-          <div className='login__login'>log in</div>
+      <form className='addeditmovie'>
+        <div className="addeditmovie__wrapper">
+        <div className="addeditmovie__cross">
+          <div className="addeditmovie__cross-line"></div>
+          <div className="addeditmovie__cross-line"></div>
+        </div>
+        <div className='addeditmovie__content'>
+          <div className='addeditmovie__edit'>EDIT MOVIE</div>
+          <div className="addeditmovie__line">
           <Input
-            class={'login__input'}
-            description='user id'
-            value={this.state.login}
-            onInputChange={this.loginChange}
-            placeholder='login'
+            name='title'
+            class={'addeditmovie__title'}
+            description='title'
+            value={this.state.title}
+            onInputChange={this.onInputChange}
+            placeholder='title'
             type='input'
           />
           <Input
-            class={'login__input'}
-            description='password'
-            value={this.state.password}
-            onInputChange={this.passwordChange}
-            placeholder='password'
-            type='password'
+            name='date'
+            class={'addeditmovie__date'}
+            description='release date'
+            value={this.state.date}
+            onInputChange={this.onInputChange}
+            placeholder='movie url'
+            type='date'
           />
-          <div className="login__button">
-            <Button onClick={this.reset} type='hollow' text='reset' class='login__button login__reset' />
-            <Button onClick={() => this.submit} type='full' text='log in' class='login__button login__in' />
+          
+          </div>
+          
+          <div className="addeditmovie__line">
+          <Input
+            name='url'
+            class={'addeditmovie__url'}
+            description='movie url'
+            value={this.state.url}
+            onInputChange={this.onInputChange}
+            placeholder='movie url'
+            type='input'
+          />
+          <Input
+            name='rating'
+            class={'addeditmovie__rating'}
+            description='rating'
+            value={this.state.rating}
+            onInputChange={this.onInputChange}
+            placeholder='rating'
+            type='input'
+          />
+          
+          </div>
+
+          <div className="addeditmovie__line">
+          <Input
+            name='genre'
+            class={'addeditmovie__genre'}
+            description='genre'
+            value={this.state.genre}
+            onInputChange={this.onInputChange}
+            placeholder='genre'
+            type='input'
+          />
+          <Input
+            name='runtime'
+            class={'addeditmovie__runtine'}
+            description='runtime'
+            value={this.state.runtime}
+            onInputChange={this.onInputChange}
+            placeholder='movie url'
+            type='input'
+          />
+          
+          </div>
+
+          <div className="addeditmovie__area">
+            <div className="addeditmovie__descr">overview</div>
+            <textarea name='textarea' className='addeditmovie__textarea' onChange={(event) => this.onInputChange(event)}></textarea>
+          </div>
+
+          <div className="addeditmovie__buttons">
+            <Button onClick={this.reset} type='hollow' text='reset' class='addeditmovie__button addeditmovie__reset' />
+            <Button onClick={() => this.submit} type='full' text='submit' class='addeditmovie__button addeditmovie__submit' />
           </div>
         </div>
+        </div>
+    
       </form>
     )
   }

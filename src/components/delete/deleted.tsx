@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../button/button'
-import './addmovie.scss'
+import './deleted.scss'
 
 class Deleted extends React.Component {
   render(): JSX.Element {

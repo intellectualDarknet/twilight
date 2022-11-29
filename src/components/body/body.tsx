@@ -4,6 +4,7 @@ import './body.scss'
 
 interface IBodyProps {
   props?: string
+  changeType: Function
 }
 
 interface IBodyState {
@@ -18,7 +19,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
   render(): JSX.Element {
     return (
       <div className='body'>
-        <Modes />
+        <Modes changeType={this.props.changeType}/>
         <div className='body__underline'></div>
         <div className='body__found'>
           <span className='body__number'></span>

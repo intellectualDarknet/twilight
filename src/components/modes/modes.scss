@@ -15,8 +15,9 @@
     color: $color-white;
     opacity: 0.6;
 
-    &__active {
+    &_active {
       opacity: 1;
+      color: red;
     }
   }
 

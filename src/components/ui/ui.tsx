@@ -8,6 +8,7 @@ import './ui.scss'
 interface IUIProps {
   toggleModal: Function
   onInputChange: Function
+  changeType: Function
 }
 
 interface IUIState {
@@ -35,7 +36,7 @@ class UI extends React.Component<IUIProps, IUIState> {
       <div className='ui'>
         <div className='ui__wrapper'>
           <Header showModal={this.props.toggleModal} onInputChange={this.onInputChange} />
-          <Body />
+          <Body changeType={this.props.changeType} />
         </div>
       </div>
       </>

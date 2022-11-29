@@ -8,6 +8,7 @@ import './modal.scss'
 interface IModalProps {
   passingElement: JSX.Element | undefined
   toggleModal: Function
+  onClickFunction: Function
 }
 
 interface IModalState {
@@ -30,7 +31,7 @@ class Modal extends React.Component<IModalProps, IModalState > {
         {this.props.passingElement &&
         <>
           <div className="blur"></div>
-          <div className='modal'>
+          <div onClick={(e) => this.props.onClickFunction(e)} className='modal'>
             {this.props.passingElement}
           </div>
         </>

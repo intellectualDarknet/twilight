@@ -9,6 +9,7 @@ interface IPropsInput {
   description?: string
   class?: null | undefined | string
   name?: string;
+  defaultValue?: string;
 }
 interface IStateInput {
   state?: string
@@ -25,6 +26,7 @@ class Input extends React.Component<IPropsInput, IStateInput> {
         <div className='entry'>
           <div className='entry__descr'>{this.props.description}</div>
           <input
+            defaultValue={this.props.defaultValue}
             name={this.props.name}
             value={this.props.value}
             onChange={(event) => this.props.onInputChange!(event)}

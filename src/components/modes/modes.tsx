@@ -1,10 +1,12 @@
 import classNames from 'classnames'
 import React, { SyntheticEvent } from 'react'
+import Select from '../select/select'
 import './modes.scss'
 
 interface IModesProps {
   props?: string
   changeType: Function
+  changeSorting: Function
 }
 
 interface IModesState {
@@ -24,10 +26,12 @@ class Modes extends React.Component<IModesProps, IModesState> {
     this.setState({
       type: (event.target as HTMLElement).id
     })
-
   }
 
-  
+  public onChangeSelect = (event: SyntheticEvent) => {
+    this.props.changeSorting((event.target as HTMLSelectElement).value)
+  }
+
   render(): JSX.Element {
     return (
       <div className='modes'>
@@ -43,6 +47,7 @@ class Modes extends React.Component<IModesProps, IModesState> {
           </div>
           <div className='modes__sort-n-date'>
             <span className='modes__type'>Sort By</span>
+            <Select onChangeSelect={this.onChangeSelect} array={["Release date",2021,2020,2019,2018,2017]} class='modes__select'/>
             <span className='modes__sort'>Release Date</span>
           </div>
         </div>

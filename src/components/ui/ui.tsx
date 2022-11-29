@@ -7,8 +7,9 @@ import './ui.scss'
 
 interface IUIProps {
   toggleModal: Function
-  onInputChange: Function
+  onSearchChange: Function
   changeType: Function
+  changeSorting: Function
 }
 
 interface IUIState {
@@ -26,7 +27,7 @@ class UI extends React.Component<IUIProps, IUIState> {
 
 
 
-  public onInputChange = (value: string) => {
+  public onSearchChange = (value: string) => {
 
   }
 
@@ -35,8 +36,8 @@ class UI extends React.Component<IUIProps, IUIState> {
       <>
       <div className='ui'>
         <div className='ui__wrapper'>
-          <Header showModal={this.props.toggleModal} onInputChange={this.onInputChange} />
-          <Body changeType={this.props.changeType} />
+          <Header showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} />
+          <Body changeSorting={this.props.changeSorting} changeType={this.props.changeType} />
         </div>
       </div>
       </>

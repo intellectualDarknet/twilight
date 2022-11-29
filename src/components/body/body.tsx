@@ -5,6 +5,7 @@ import './body.scss'
 interface IBodyProps {
   props?: string
   changeType: Function
+  changeSorting: Function
 }
 
 interface IBodyState {
@@ -19,7 +20,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
   render(): JSX.Element {
     return (
       <div className='body'>
-        <Modes changeType={this.props.changeType}/>
+        <Modes changeSorting={this.props.changeSorting} changeType={this.props.changeType}/>
         <div className='body__underline'></div>
         <div className='body__found'>
           <span className='body__number'></span>

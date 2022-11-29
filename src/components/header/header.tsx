@@ -6,7 +6,7 @@ import './header.scss'
 
 interface IHeaderProps {
   showModal: Function
-  onInputChange: Function
+  onSearchChange: Function
 }
 
 class Header extends React.Component<IHeaderProps> {
@@ -28,7 +28,7 @@ class Header extends React.Component<IHeaderProps> {
           <div className='header__writing'>FIND YOUR MOVIE</div>
           <div className='header__main'>
             <Input
-              onInputChange={this.props.onInputChange}
+              onInputChange={this.props.onSearchChange}
               placeholder={'What do you want to watch?'}
             />
             <Button onClick={() => {}} type='full' text='SEARCH' />

@@ -3,9 +3,10 @@ import Modal from './components/modal/modal'
 import UI from './components/ui/ui'
 
 interface IAppState {
-  input: string
+  search: string
   passingElement: JSX.Element | undefined
   type: string
+  sorting: string
 }
 
 interface IAppProps {
@@ -17,17 +18,27 @@ export default class App extends React.Component<IAppProps, IAppState> {
     super(props)
 
     this.state = { 
-      input: '',
+      search: '',
       passingElement: undefined,
-      type: 'all'
+      type: 'all',
+      sorting: ''
     }
+  }
+
+  public changeSearchParams = (field: string, value: string) => {
+    this.setState((prev) => {
+      return {
+        ...prev,
+        [field]: value,
+      }
+    })
   }
 
   changeState = (value: string): void => {
     this.setState((prev) => {
       return {
         ...prev,
-        input: value,
+        search: value,
       }
     })
   }
@@ -41,6 +52,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
     })
   }
 
+  changeSorting = (sort: string): void => {
+    this.setState((prev) => {
+      return {
+        ...prev,
+        sorting: sort,
+      }
+    })
+  }
+
   public toggleModal = (value: JSX.Element): void => {
     this.setState((prev) => {
       return {
@@ -49,8 +69,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
       }
     })
   }
-
-  // restructure other modals!
 
   public onClickFunction = (event: SyntheticEvent):void => {
     const target = event.target as HTMLElement
@@ -68,7 +86,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <>
         {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement} toggleModal={this.toggleModal}/>}
-        <UI changeType={this.changeType} toggleModal={this.toggleModal} onInputChange={this.changeState} />
+        <UI changeSorting={this.changeSorting} changeType={this.changeType} toggleModal={this.toggleModal} onSearchChange={this.changeState} />
       </>
     )
   }

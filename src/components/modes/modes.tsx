@@ -5,8 +5,7 @@ import './modes.scss'
 
 interface IModesProps {
   props?: string
-  changeType: Function
-  changeSorting: Function
+  changeSearchParams: Function
 }
 
 interface IModesState {
@@ -22,14 +21,14 @@ class Modes extends React.Component<IModesProps, IModesState> {
   }
 
   public toggleFilms = (event: SyntheticEvent) => {
-    this.props.changeType((event.target as HTMLElement).id)
+    this.props.changeSearchParams('type', (event.target as HTMLElement).id)
     this.setState({
       type: (event.target as HTMLElement).id
     })
   }
 
   public onChangeSelect = (event: SyntheticEvent) => {
-    this.props.changeSorting((event.target as HTMLSelectElement).value)
+    this.props.changeSearchParams('sorting', (event.target as HTMLSelectElement).value)
   }
 
   render(): JSX.Element {
@@ -40,15 +39,14 @@ class Modes extends React.Component<IModesProps, IModesState> {
             <span onClick={(e) => this.toggleFilms(e)} id='all'
             className={classNames(`modes__type`, {modes__type_active: this.state.type === 'all',})}
           >All</span>
-            <span onClick={(e) => this.toggleFilms(e)} id='documentary' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'documentary',})}>Documentary</span>
-            <span onClick={(e) => this.toggleFilms(e)} id='comedy' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'comedy',})}>Comedy</span>
-            <span onClick={(e) => this.toggleFilms(e)} id='horror' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'horror',})}>Horror</span>
-            <span onClick={(e) => this.toggleFilms(e)} id='crime' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'crime',})}>Crime</span>
+            <span data-name='type' onClick={(e) => this.toggleFilms(e)} id='documentary' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'documentary',})}>Documentary</span>
+            <span data-name='type' onClick={(e) => this.toggleFilms(e)} id='comedy' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'comedy',})}>Comedy</span>
+            <span data-name='type' onClick={(e) => this.toggleFilms(e)} id='horror' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'horror',})}>Horror</span>
+            <span data-name='type' onClick={(e) => this.toggleFilms(e)} id='crime' className={classNames(`modes__type`, {modes__type_active: this.state.type === 'crime',})}>Crime</span>
           </div>
           <div className='modes__sort-n-date'>
-            <span className='modes__type'>Sort By</span>
+            <div className='modes__type modes__sort-by'>Sort By</div>
             <Select onChangeSelect={this.onChangeSelect} array={["Release date",2021,2020,2019,2018,2017]} class='modes__select'/>
-            <span className='modes__sort'>Release Date</span>
           </div>
         </div>
       </div>

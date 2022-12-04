@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import './movie.scss';
 
 interface IMovieProps {
   src: string
   name: string
   type: string
-  year: number
+  year: string
+  onContextMenu: Function
 }
 
 interface IMovieState {
@@ -12,16 +14,14 @@ interface IMovieState {
 }
 
 class IMovie extends React.Component<IMovieProps, IMovieState> {
-  // constructor(props: IMovieProps) {
-  //   super(props);
-  //   this.state = { :  };
-  // }
 
   render(): JSX.Element {
     return (
       <div className='movie'>
-        <div className='movie__wrapper'>
-          <img src={this.props.src} alt='alt' />
+        <div onContextMenu={(e) => this.props.onContextMenu(e)} className='movie__wrapper'>
+          <div className="movie__container">
+            <img className='movie__img' src={this.props.src} alt='alt' />
+          </div>
           <div className='movie__flex'>
             <div className='movie__title'>{this.props.name}</div>
             <div className='movie__year'>{this.props.year}</div>

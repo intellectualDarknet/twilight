@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react'
 import Button from '../button/button'
 import Input from '../input/input'
+import Select from '../select/select'
 import './addeditmovie.scss'
 
 interface IAddEditMovieProps {
@@ -34,6 +35,9 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
   }
 
   public onInputChange = (event: SyntheticEvent): void => {
+    console.log((event.target as HTMLSelectElement) )
+    console.log((event.target as HTMLSelectElement).value )
+    console.log((event.target as HTMLSelectElement).name )
     const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name
     const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value
     this.setState((prev) => {
@@ -42,7 +46,6 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
         [name]: value,
       }
     })
-    console.log(this.state)
   }
 
   public reset = (): void => {
@@ -135,16 +138,8 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
           </div>
 
           <div className="addeditmovie__line">
-          <Input
-            defaultValue={this.props.obj?.genre}
-            name='genre'
-            class={'addeditmovie__genre'}
-            description='genre'
-            value={this.state.genre}
-            onInputChange={this.onInputChange}
-            placeholder='genre'
-            type='input'
-          />
+
+          <Select name='genre' value={this.state.genre} descrClass={'entry__descr'} descr={'genre'} onChangeSelect={this.onInputChange} multiple={true} array={['genre', 'crime','documentary','horror','comedy']} class='addeditmovie__genre'/>
           <Input
             defaultValue={this.props.obj?.runtime}
             name='runtime'

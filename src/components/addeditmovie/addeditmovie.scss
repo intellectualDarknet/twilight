@@ -105,6 +105,16 @@
     margin-left: 16px;
   }
 
+  &__genre {
+    min-height: 57px;
+    background-color: rgba(50, 50, 50, 0.8);
+    color: $color-white;
+    opacity: 0.8;
+    border-radius: 4px;
+    width: calc(100% - 14px);
+    margin-right: 14px;
+  }
+
 }
 
 .cross {

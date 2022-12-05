@@ -1,5 +1,5 @@
 .modal {
-  position: absolute;
+  position: fixed;
   z-index: 6;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
 }
 
 .blur {
-  position: absolute;
+  position: fixed;
   z-index: 5;
   top: 0;
   left: 0;

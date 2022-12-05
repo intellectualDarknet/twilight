@@ -4,13 +4,12 @@ import UI from './components/ui/ui'
 import { fakedata } from './assets/fakeResponse/fake'
 import AddEditMovie from './components/addeditmovie/addeditmovie'
 import Deleted from './components/delete/deleted'
-import ContextMenu from './components/context-menu/context-menu'
 
 export interface IFakeData {
   title: string
   year: string
   src: string
-  type:  string
+  type: string
 }
 
 interface IAppState {
@@ -86,8 +85,28 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.toggleModal(<Deleted />)
   } 
 
-  componentDidMount(): void {
+  public showMovieInfo() {
 
+  }
+
+  public globalOnClick(event: React.MouseEvent) {
+    // if (!(event.target as unknown as HTMLElement).closest('.modal')) {
+    //   if (this.state.showContextMenu) {
+    //     this.setState((prev) => {
+    //       return {
+    //         ...prev,
+    //         showContextMenu: false
+    //       }
+    //     })
+    //   } else {
+
+    //   }
+    // }
+  
+  }
+  
+
+  componentDidMount(): void {
     console.log(fakedata)
     this.setState((prev) => {
       return {
@@ -101,7 +120,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <>
         {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement} toggleModal={this.toggleModal}/>}
-        <UI showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} toggleModal={this.toggleModal} data={this.state.data}/>
+        <UI globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} toggleModal={this.toggleModal} data={this.state.data}/>
       </>
     )
   }

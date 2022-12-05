@@ -12,6 +12,7 @@ interface IUIProps {
   data?: IFakeData[]
   toContextMenuFunctions: ItoContextMenuFunctions
   showContextMenu: boolean
+  globalOnClick: Function
 }
 
 interface IUIState {
@@ -27,31 +28,16 @@ class UI extends React.Component<IUIProps, IUIState> {
     }
   }
 
-
   public onSearchChange = (value: string) => {
     this.props.changeSearchParams('search', value)
   }
 
-  public mouseMove = (event: any) => {
-    if (event.pageX == null && event.clientX != null) {
-      const eventDoc = (event.target && event.target.ownerDocument) || document;
-      const doc = eventDoc.documentElement;
-      const body = eventDoc.body;
 
-      event.pageX = event.clientX +
-        (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
-        (doc && doc.clientLeft || body && body.clientLeft || 0);
-      event.pageY = event.clientY +
-        (doc && doc.scrollTop  || body && body.scrollTop  || 0) -
-        (doc && doc.clientTop  || body && body.clientTop  || 0 );
-    }
-    console.log(event.pageX, event.pageY)
-  }
 
   render(): JSX.Element {
     return (
       <>
-      <div onMouseMove={(e: any) => this.mouseMove(e)} className='ui'>
+      <div onClick={(e) => this.props.globalOnClick(e)} className='ui'>
         <div className='ui__wrapper'>
           <Header showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} />
           <Body showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} changeSearchParams={this.props.changeSearchParams} />

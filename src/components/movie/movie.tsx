@@ -7,6 +7,7 @@ interface IMovieProps {
   type: string
   year: string
   onContextMenu: Function
+  index: string
 }
 
 interface IMovieState {
@@ -17,7 +18,7 @@ class IMovie extends React.Component<IMovieProps, IMovieState> {
 
   render(): JSX.Element {
     return (
-      <div className='movie'>
+      <div data-id={this.props.index} className='movie'>
         <div onContextMenu={(e) => this.props.onContextMenu(e)} className='movie__wrapper'>
           <div className="movie__container">
             <img className='movie__img' src={this.props.src} alt='alt' />

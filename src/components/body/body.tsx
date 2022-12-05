@@ -69,7 +69,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
           movies found
         </div>
         <div className='body__movies'>
-          {this.props.data && this.props.data.map((elem, i) => <Movie onContextMenu={this.contextMenu} year={elem.year} src={elem.src} name={elem.title} type={elem.type}/>)}
+          {this.props.data && this.props.data.map((elem, i) => <Movie key ={elem.id} index={(+elem.id -1).toString() } onContextMenu={this.contextMenu} year={elem.year} src={elem.src} name={elem.title} type={elem.type}/>)}
         </div>
       </div>
       </>

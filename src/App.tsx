@@ -6,10 +6,14 @@ import AddEditMovie from './components/addeditmovie/addeditmovie'
 import Deleted from './components/delete/deleted'
 
 export interface IFakeData {
+  id: string
   title: string
   year: string
   src: string
   type: string
+  rating: string
+  duration: string
+  text: string
 }
 
 interface IAppState {
@@ -19,6 +23,9 @@ interface IAppState {
   sorting: string
   data?: IFakeData[]
   showContextMenu: boolean
+  showMovieInfo: boolean
+  MovieInfo: IFakeData | undefined
+  functionToSubmit: Function 
 }
 
 interface IAppProps {
@@ -34,7 +41,10 @@ export default class App extends React.Component<IAppProps, IAppState> {
       passingElement: undefined,
       type: 'all',
       sorting: '',
-      showContextMenu: false
+      showContextMenu: false,
+      showMovieInfo: false,
+      MovieInfo: undefined,
+      functionToSubmit: () => {}
     }
   }
 
@@ -79,32 +89,59 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   public editMovie = (id: number) => {
     this.toggleModal(<AddEditMovie />)
+    this.setState((prev) => {})
   }
 
   public deleteMovie = (id: number) => {
     this.toggleModal(<Deleted />)
+    
+    const deleteM = ():void => {
+      const dArray = this.state.data?.splice(id, 1) 
+      this.setState((prev) => {
+        return {
+          ...prev,
+          data: dArray
+        }
+      })
+    }
+
+    this.setState((prev) => {
+      return {
+        ...prev,
+        functionToSubmit: deleteM
+      }
+    })
   } 
 
-  public showMovieInfo() {
-
+  public showMovieInfo = (value?: IFakeData): void => {
+    this.setState((prev) => {
+      return {
+        ...prev,
+        showMovieInfo: value ? true : false,
+        MovieInfo: value ? value : prev.MovieInfo 
+      }
+    })
   }
 
-  public globalOnClick(event: React.MouseEvent) {
-    // if (!(event.target as unknown as HTMLElement).closest('.modal')) {
-    //   if (this.state.showContextMenu) {
-    //     this.setState((prev) => {
-    //       return {
-    //         ...prev,
-    //         showContextMenu: false
-    //       }
-    //     })
-    //   } else {
-
-    //   }
-    // }
-  
+  public globalOnClick = (event: React.MouseEvent) => {
+    console.log('globalClick');
+    console.log((event.target as HTMLElement).closest('.movie'))
+    console.log(this.state)
+    console.log(this.state.showContextMenu)
+    if (this.state.showContextMenu) {
+      this.setState((prev) => {
+        return {
+          ...prev,
+          showContextMenu: false
+        }
+      })
+    } else {
+      const closest = (event.target as HTMLElement).closest('.movie')
+      if (closest) {
+        this.showMovieInfo(fakedata[+((closest as HTMLElement).dataset.id! as string)])
+      }
+    }
   }
-  
 
   componentDidMount(): void {
     console.log(fakedata)
@@ -120,7 +157,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <>
         {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement} toggleModal={this.toggleModal}/>}
-        <UI globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} toggleModal={this.toggleModal} data={this.state.data}/>
+        <UI movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} toggleModal={this.toggleModal} data={this.state.data}/>
       </>
     )
   }

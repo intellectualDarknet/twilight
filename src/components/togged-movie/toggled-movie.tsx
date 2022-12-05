@@ -1,14 +1,10 @@
 import React from 'react';
+import { IFakeData } from '../../App';
 import './toggled-movie.scss';
 
 interface IToggledMovieProps {
-  src: string
-  name: string
-  type: string
-  year: string
-  rating: string
-  duration: string
-  text: string
+  elem: IFakeData | undefined
+  showMovieInfo: Function
 }
 
 interface IToggledMovieState {
@@ -20,25 +16,27 @@ class ToggledMovie extends React.Component<IToggledMovieProps, IToggledMovieStat
   render(): JSX.Element {
     return (
       <div className='togglemovie'>
-                  <div className='header__logo'>
+          <div className='togglemovie__logo'>
             <div>
-              <span className='header__logo-color'>netflix</span>roulette
+              <span className='togglemovie__logo-color'>netflixroulette</span>
             </div>
-            <button>Search</button>
+            <button onClick={() => {this.props.showMovieInfo()}}>Search</button>
           </div>
           <div className="togglemovie__flex">
-            <img className='movie__img' src={this.props.src} alt='alt' />
+            <div className="togglemovie__box">
+              <img className='togglemovie__img' src={this.props.elem!.src} alt='alt' />
+            </div>
             <div className="togglemovie__container">
               <div className="togglemovie__upper">
-                <div className="togglemovie__title">{this.props.name}</div>
-                <div className="togglemovie__rating">{this.props.rating}</div>
+                <div className="togglemovie__title">{this.props.elem!.title}</div>
+                <div className="togglemovie__rating">{this.props.elem!.rating}</div>
               </div>
-              <div>{this.props.type}</div>
+              <div className="togglemovie__type">{this.props.elem!.type}</div>
               <div className="togglemovie__center">
-                <div className='togglemovie__year'>{this.props.year}</div>
-                <div className='togglemovie__duration'>{this.props.duration}</div>
+                <div className='togglemovie__year'>{this.props.elem!.year}</div>
+                <div className='togglemovie__duration'>{this.props.elem!.duration}</div>
               </div>
-              <div className='togglemovie__text'>{this.props.text}</div>
+              <div className='togglemovie__text'>{this.props.elem!.text}</div>
             </div>
           </div>
       </div>

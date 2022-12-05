@@ -3,6 +3,7 @@ import { IFakeData } from '../../App'
 import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions'
 import Body from '../body/body'
 import Header from '../header/header'
+import ToggledMovie from '../togged-movie/toggled-movie'
 import './ui.scss'
 
 
@@ -12,7 +13,10 @@ interface IUIProps {
   data?: IFakeData[]
   toContextMenuFunctions: ItoContextMenuFunctions
   showContextMenu: boolean
+  showMovieInfo: boolean
   globalOnClick: Function
+  movieInfo: IFakeData | undefined
+  showMovieF: Function
 }
 
 interface IUIState {
@@ -32,19 +36,19 @@ class UI extends React.Component<IUIProps, IUIState> {
     this.props.changeSearchParams('search', value)
   }
 
-
-
   render(): JSX.Element {
     return (
       <>
       <div onClick={(e) => this.props.globalOnClick(e)} className='ui'>
         <div className='ui__wrapper'>
-          <Header showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} />
+          <>
+          {this.props.showMovieInfo && <ToggledMovie showMovieInfo={this.props.showMovieF} elem={this.props.movieInfo}/>}
+          {!this.props.showMovieInfo && <Header showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} />}
           <Body showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} changeSearchParams={this.props.changeSearchParams} />
+          </>
         </div>
       </div>
-      </>
-
+    </>
     )
   }
 }

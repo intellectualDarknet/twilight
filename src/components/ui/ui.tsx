@@ -15,6 +15,7 @@ interface IUIProps {
   showContextMenu: boolean
   showMovieInfo: boolean
   globalOnClick: Function
+  buttonSubmitFunction: Function
   movieInfo: IFakeData | undefined
   showMovieF: Function
 }
@@ -43,7 +44,7 @@ class UI extends React.Component<IUIProps, IUIState> {
         <div className='ui__wrapper'>
           <>
           {this.props.showMovieInfo && <ToggledMovie showMovieInfo={this.props.showMovieF} elem={this.props.movieInfo}/>}
-          {!this.props.showMovieInfo && <Header showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} />}
+          {!this.props.showMovieInfo && <Header state={this.props.data} showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} buttonSubmitFunction={this.props.buttonSubmitFunction} />}
           <Body showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} changeSearchParams={this.props.changeSearchParams} />
           </>
         </div>

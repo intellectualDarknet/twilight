@@ -1,4 +1,5 @@
 import React from 'react'
+import { IFakeData } from '../../App'
 import AddEditMovie from '../addeditmovie/addeditmovie'
 import Button from '../button/button'
 import Input from '../input/input'
@@ -7,6 +8,8 @@ import './header.scss'
 interface IHeaderProps {
   showModal: Function
   onSearchChange: Function
+  state: IFakeData[] | undefined
+  buttonSubmitFunction: Function
 }
 
 class Header extends React.Component<IHeaderProps> {
@@ -19,7 +22,7 @@ class Header extends React.Component<IHeaderProps> {
               <span className='header__logo-color'>netflix</span>roulette
             </div>
             <Button
-              onClick={() => {this.props.showModal(<AddEditMovie/>)}}
+              onClick={() => {this.props.showModal(<AddEditMovie state={this.props.state} submitFunction={this.props.buttonSubmitFunction}/>)}}
               type='hollow'
               text='+ add movie'
               class='header__button'

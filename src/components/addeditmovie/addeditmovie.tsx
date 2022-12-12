@@ -1,22 +1,26 @@
 import React, { SyntheticEvent } from 'react'
+import { IFakeData } from '../../App'
 import Button from '../button/button'
 import Input from '../input/input'
 import Select from '../select/select'
 import './addeditmovie.scss'
 
 interface IAddEditMovieProps {
-  obj?: IAddEditMovieState
+  state?: IFakeData[]
+  obj?: IFakeData
   class?: string
+  submitFunction: Function
 }
 
 interface IAddEditMovieState {
+  id: string
   title: string,
-  date: string,
-  url: string
+  year: string,
+  src: string
   rating: string
-  genre: string
-  runtime: string
-  textarea: string
+  type: string
+  duration: string
+  text: string
 }
 
 export default class AddEditMovie extends React.Component<IAddEditMovieProps, IAddEditMovieState> {
@@ -24,20 +28,19 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
     super(props)
 
     this.state = {
-      title: '',
-      date: '',
-      url:  '',
-      rating: '',
-      genre: '',
-      runtime: '',
-      textarea: '',
+      id: this.props.obj?.id ?? '',
+      title: this.props.obj?.title ?? '',
+      year: this.props.obj?.year ?? '',
+      src:  this.props.obj?.src ?? '',
+      rating: this.props.obj?.rating ?? '',
+      type: this.props.obj?.type ?? '',
+      duration: this.props.obj?.duration ?? '',
+      text: this.props.obj?.text ?? '',
     }
   }
 
   public onInputChange = (event: SyntheticEvent): void => {
     console.log((event.target as HTMLSelectElement) )
-    console.log((event.target as HTMLSelectElement).value )
-    console.log((event.target as HTMLSelectElement).name )
     const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name
     const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value
     this.setState((prev) => {
@@ -63,12 +66,24 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
     })
   }
 
+  public componentDidMount(): void {
+    console.log(this.props.state)
+  }
+
   public submit = (e: SyntheticEvent): void => {
     if (Object.values(this.state).includes('')) {
       console.log('not full')
     } else {
+      let state: IFakeData[];
       console.log('full')
       this.reset()
+      if (this.props.obj) {
+        this.props.state
+        state = this.props.state?.map((elem) => elem.id === this.props.obj?.id ? {...this.state} : elem)!
+      } else {
+        state = [this.state].concat([...this.props.state!]);
+      }
+      this.props.submitFunction(state)
     }
   }
 
@@ -101,11 +116,11 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
             type='input'
           />
           <Input
-            defaultValue={this.props.obj?.date}
-            name='date'
+            defaultValue={this.props.obj?.year}
+            name='year'
             class={'addeditmovie__date'}
             description='release date'
-            value={this.state.date}
+            value={this.state.year}
             onInputChange={this.onInputChange}
             placeholder='movie url'
             type='date'
@@ -115,11 +130,11 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
           
           <div className="addeditmovie__line">
           <Input
-            defaultValue={this.props.obj?.url}
-            name='url'
+            defaultValue={this.props.obj?.src}
+            name='src'
             class={'addeditmovie__url'}
             description='movie url'
-            value={this.state.url}
+            value={this.state.src}
             onInputChange={this.onInputChange}
             placeholder='movie url'
             type='input'
@@ -139,13 +154,13 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
 
           <div className="addeditmovie__line">
 
-          <Select name='genre' value={this.state.genre} descrClass={'entry__descr'} descr={'genre'} onChangeSelect={this.onInputChange} multiple={true} array={['genre', 'crime','documentary','horror','comedy']} class='addeditmovie__genre'/>
+          <Select name='type' value={this.state.type} descrClass={'entry__descr'} descr={'genre'} onChangeSelect={this.onInputChange} multiple={true} array={['genre', 'crime','documentary','horror','comedy']} class='addeditmovie__genre'/>
           <Input
-            defaultValue={this.props.obj?.runtime}
-            name='runtime'
+            defaultValue={this.props.obj?.duration}
+            name='duration'
             class={'addeditmovie__runtine'}
             description='runtime'
-            value={this.state.runtime}
+            value={this.state.duration}
             onInputChange={this.onInputChange}
             placeholder='movie url'
             type='input'
@@ -155,7 +170,7 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
 
           <div className="addeditmovie__area">
             <div className="addeditmovie__descr">overview</div>
-            <textarea defaultValue={this.props.obj?.textarea} value={this.state.textarea} name='textarea' className='addeditmovie__textarea' onChange={(event) => this.onInputChange(event)}></textarea>
+            <textarea defaultValue={this.props.obj?.text} value={this.state.text} name='text' className='addeditmovie__textarea' onChange={(event) => this.onInputChange(event)}></textarea>
           </div>
 
           <div className="addeditmovie__buttons">

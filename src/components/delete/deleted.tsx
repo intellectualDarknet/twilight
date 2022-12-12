@@ -2,7 +2,15 @@ import React from 'react'
 import Button from '../button/button'
 import './deleted.scss'
 
-class Deleted extends React.Component {
+interface IDeletedProps {
+  deleteEvent: Function
+}
+
+class Deleted extends React.Component<IDeletedProps> {
+
+  handleSubmit = () => {
+    this.props.deleteEvent();
+  }
   render(): JSX.Element {
     return (
       <div className="popup">
@@ -18,7 +26,7 @@ class Deleted extends React.Component {
             </div>
           </div>
           <div className="deleted__container">
-            <Button onClick={() => {}} type='full' text='confirm' class='deleted__button deleted__in' />
+            <Button onClick={this.handleSubmit} type='full' text='confirm' class='deleted__button deleted__in' />
           </div>
         </div>
       </div>

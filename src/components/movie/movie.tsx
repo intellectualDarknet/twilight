@@ -19,7 +19,7 @@ class IMovie extends React.Component<IMovieProps, IMovieState> {
   render(): JSX.Element {
     return (
       <div data-id={this.props.index} className='movie'>
-        <div onContextMenu={(e) => this.props.onContextMenu(e)} className='movie__wrapper'>
+        <div onContextMenu={(e) => this.props.onContextMenu(e, this.props.index)} className='movie__wrapper'>
           <div className="movie__container">
             <img className='movie__img' src={this.props.src} alt='alt' />
           </div>

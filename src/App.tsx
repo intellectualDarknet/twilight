@@ -87,23 +87,39 @@ export default class App extends React.Component<IAppProps, IAppState> {
     })
   }
 
+  public submitFunction = (data: IFakeData[]) => {
+    this.setState((prev) => {
+      return {
+        ...prev,
+        data: data
+      }
+    })
+  }
+
   public editMovie = (id: number) => {
-    this.toggleModal(<AddEditMovie />)
-    this.setState((prev) => {})
+    console.log('this.state.data',this.state.data)
+    const value = this.state.data?.find((elem) => +elem.id === id)
+    console.log('value', value)
+    this.toggleModal(<AddEditMovie  state={this.state.data!} obj={this.state.data![id]} submitFunction={this.submitFunction} />)
   }
 
   public deleteMovie = (id: number) => {
-    this.toggleModal(<Deleted />)
-    
+
+    const dArray = this.state.data?.filter((elem) => +elem.id != +id)
+
     const deleteM = ():void => {
-      const dArray = this.state.data?.splice(id, 1) 
+      console.log('delete M')
+      console.log(dArray, id)
       this.setState((prev) => {
         return {
           ...prev,
+          passingElement: undefined,
           data: dArray
         }
       })
     }
+
+    this.toggleModal(<Deleted deleteEvent={deleteM}/>)
 
     this.setState((prev) => {
       return {
@@ -157,7 +173,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <>
         {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement} toggleModal={this.toggleModal}/>}
-        <UI movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} toggleModal={this.toggleModal} data={this.state.data}/>
+        <UI buttonSubmitFunction={this.submitFunction} movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} toggleModal={this.toggleModal} data={this.state.data}/>
       </>
     )
   }

@@ -30,7 +30,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
     }
   }
 
-  public contextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+  public contextMenu = (event: React.MouseEvent<HTMLDivElement>, index: string) => {
     event.preventDefault();
     if (event.pageX == null && event.clientX != null) {
       const eventDoc = (event.target && (event.target as any).ownerDocument) || document;
@@ -48,11 +48,11 @@ class Body extends React.Component<IBodyProps, IBodyState> {
       return {
         ...prev,
         top: event.pageY,
-        left: event.pageX
+        left: event.pageX,
+        idToChange: index
       }
     })
 
-    console.log(event.pageX, event.pageY)
     this.props.ItoContextMenuFunctions.showContextMenu(true)
   }
 
@@ -69,11 +69,10 @@ class Body extends React.Component<IBodyProps, IBodyState> {
           movies found
         </div>
         <div className='body__movies'>
-          {this.props.data && this.props.data.map((elem, i) => <Movie key ={elem.id} index={(+elem.id -1).toString() } onContextMenu={this.contextMenu} year={elem.year} src={elem.src} name={elem.title} type={elem.type}/>)}
+          {this.props.data && this.props.data.map((elem) => <Movie key ={elem.id} index={(+elem.id).toString() } onContextMenu={this.contextMenu} year={elem.year} src={elem.src} name={elem.title} type={elem.type}/>)}
         </div>
       </div>
       </>
-
     )
   }
 }

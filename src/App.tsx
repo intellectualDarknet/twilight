@@ -1,35 +1,36 @@
-import React, { Key, SyntheticEvent } from 'react'
+import { MouseEvent, SyntheticEvent, Component } from 'react'
 import Modal from './components/modal/modal'
 import UI from './components/ui/ui'
-import { fakedata } from './assets/fakeResponse/fake'
 import AddEditMovie from './components/addeditmovie/addeditmovie'
 import Deleted from './components/delete/deleted'
+import { fakedata } from './assets/fakeResponse/fake'
 
 export interface IFakeData {
-  id: string
-  title: string
-  year: string
-  src: string
-  type: string
-  rating: string
-  duration: string
-  text: string
+  id: string;
+  title: string;
+  year: string;
+  src: string;
+  type: string;
+  rating: string;
+  duration: string;
+  text: string;
 }
 
 interface IAppState {
-  search: string
-  passingElement: JSX.Element | undefined
-  type: string
-  sorting: string
-  data?: IFakeData[]
-  showContextMenu: boolean
-  showMovieInfo: boolean
-  MovieInfo: IFakeData | undefined
-  functionToSubmit: Function 
+  search: string;
+  passingElement: JSX.Element | undefined;
+  type: string;
+  sorting: string;
+  data?: IFakeData[];
+  dataToShow?: IFakeData[];
+  showContextMenu: boolean;
+  showMovieInfo: boolean;
+  MovieInfo: IFakeData | undefined;
+  functionToSubmit: Function;
 }
 
 interface IAppProps {
-  prop?: string
+  prop?: string;
 }
 
 interface IObj {
@@ -43,7 +44,7 @@ interface IObj {
   functionToSubmit?: () => {}
 }
 
-export default class App extends React.Component<IAppProps, IAppState> {
+export default class App extends Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
     super(props)
 
@@ -60,6 +61,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
 
   public changeGlobalState = (...args: any[]) => {
+    console.log(this.state)
     const obj: IObj = {}
     args.filter((elem: string, index) => {if(!(index % 2)) obj[elem as keyof IObj] = args[index + 1]})
     this.setState((prev) => {
@@ -68,6 +70,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
         ...obj,
       }
     })
+  }
+
+  public defineObjectsToShow() {
+    const filmsToShow = this.state.dataToShow!.filter((singleFilm) => singleFilm.title.includes(`${this.state.search}`) && singleFilm.type == this.state.type || this.state.type == 'all' && singleFilm.year == this.state.sorting || this.state.sorting == '')
+    this.changeGlobalState('data', filmsToShow)
   }
 
   public changeSearchParams = (field: string, value: string) => {
@@ -86,32 +93,16 @@ export default class App extends React.Component<IAppProps, IAppState> {
     }
   }
 
-  public showContextMenu = (value: boolean) => {
-    this.setState((prev) => {
-      return {
-        showContextMenu: true
-      }
-    })
+  public editMovie = (id: string) => {
+    const value = this.state.data?.find((elem) => elem.id === id)
+    this.changeGlobalState('passingElement', <AddEditMovie changeGlobalState={this.changeGlobalState} state={this.state.data!} obj={this.state.data![+id]} /> )
   }
 
-  public submitFunction = (data: IFakeData[]) => {
-    this.setState((prev) => {
-      return {
-        data: data
-      }
-    })
-  }
-
-  public editMovie = (id: number) => {
-    const value = this.state.data?.find((elem) => +elem.id === id)
-    this.changeGlobalState('passingElement', <AddEditMovie changeGlobalState={this.changeGlobalState} state={this.state.data!} obj={this.state.data![id]} /> )
-  }
-
-  public deleteMovie = (id: number) => {
-
+  public deleteMovie = (id: string) => {
+    console.log('delete movie!')
     const dArray = this.state.data?.filter((elem) => +elem.id != +id)
 
-    const deleteM = ():void => {
+    const deleteM = (): void => {
       this.changeGlobalState('passingElement', undefined, 'data', dArray)
     }
     this.changeGlobalState('passingElement', <Deleted deleteEvent={deleteM}/>, 'functionToSubmit', deleteM)
@@ -123,7 +114,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.changeGlobalState('showMovieInfo', showMovieInfoValue, "MovieInfo", movieInfoValue )
   }
 
-  public globalOnClick = (event: React.MouseEvent) => {
+  public globalOnClick = (event: MouseEvent) => {
     console.log(this.state.showContextMenu)
     if (this.state.showContextMenu) {
       this.changeGlobalState('showContextMenu', false)
@@ -143,7 +134,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <>
         {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement}/>}
-        <UI changeGlobalState={this.changeGlobalState} buttonSubmitFunction={this.submitFunction} movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{showContextMenu: this.showContextMenu, editMovie: this.editMovie, deleteMovie: this.deleteMovie}} changeSearchParams={this.changeSearchParams} data={this.state.data}/>
+        <UI changeGlobalState={this.changeGlobalState} movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{ editMovie: this.editMovie, deleteMovie: this.deleteMovie}} data={this.state.data}/>
       </>
     )
   }

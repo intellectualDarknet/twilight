@@ -1,8 +1,9 @@
-import React, { SyntheticEvent } from 'react'
-import { IFakeData } from '../../App'
+import { Component, SyntheticEvent } from 'react'
 import Button from '../button/button'
 import Input from '../input/input'
 import Select from '../select/select'
+import { IFakeData } from '../../App'
+import { nanoid } from 'nanoid'
 import './addeditmovie.scss'
 
 interface IAddEditMovieProps {
@@ -34,7 +35,7 @@ interface localState {
   text?: string
 }
 
-export default class AddEditMovie extends React.Component<IAddEditMovieProps, IAddEditMovieState> {
+export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEditMovieState> {
   constructor(props: IAddEditMovieProps) {
     super(props)
 
@@ -63,6 +64,7 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
 
   public onInputChange = (event: SyntheticEvent): void => {
     console.log((event.target as HTMLSelectElement) )
+    console.log("obj", this.state)
     const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name
     const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value
     this.changeLocalState(name,  value)
@@ -72,24 +74,31 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
     this.changeLocalState("textarea", "","title", "", "date", "url", "", "rating", "", "genre", "", "runtime", "")
   }
 
+  public componentDidMount(): void {
+      if (!this.state.id) {
+        this.changeLocalState('id', nanoid())
+      }
+  }
+
   // public componentDidMount(): void {
   //   console.log(this.props.state)
   // }
 
-  public submit = (e: SyntheticEvent): void => {
+  public submit = (): void => {
+    console.log(this.state)
     if (Object.values(this.state).includes('')) {
       console.log('not full')
     } else {
       let state: IFakeData[];
       console.log('full')
-      this.reset()
       if (this.props.obj) {
-        this.props.state
         state = this.props.state?.map((elem) => elem.id === this.props.obj?.id ? {...this.state} : elem)!
       } else {
-        state = [this.state].concat([...this.props.state!]);
+        state = [{...this.state}].concat([...this.props.state!]);
       }
+      this.reset()
       this.props.changeGlobalState('data', state)
+      this.props.changeGlobalState('passingElement', undefined)
     }
   }
 
@@ -98,7 +107,7 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
       <div className="popup">
         <form onSubmit={(e: SyntheticEvent) => {
           e.preventDefault()
-          this.submit(e)
+          this.submit()
         }}className='addeditmovie'>
         <div className="addeditmovie__wrapper">
          <div className='cross'>
@@ -181,7 +190,7 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
 
           <div className="addeditmovie__buttons">
             <Button onClick={this.reset} type='hollow' text='reset' class='addeditmovie__button addeditmovie__reset' />
-            <Button onClick={() => {console.log(123)}} type='full' text='submit' class='addeditmovie__button addeditmovie__submit' />
+            <Button onClick={this.submit} type='full' text='submit' class='addeditmovie__button addeditmovie__submit' />
           </div>
         </div>
         </div>

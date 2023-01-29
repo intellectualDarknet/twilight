@@ -1,4 +1,4 @@
-import React, { Component }  from 'react'
+import { Component, SyntheticEvent }  from 'react'
 import classNames from 'classnames'
 import './button.scss'
 
@@ -6,11 +6,9 @@ interface IButtonProps {
   type: 'full' | 'hollow'
   text: string
   class?: string
-  onClick: () => void
+  onClick: (e?: SyntheticEvent) => void
   buttonType?: 'submit' | 'reset' | 'button'
 }
-const value = (a: string) => a  
-
 class Button extends Component<IButtonProps> {
   render() {
     return (

@@ -1,21 +1,20 @@
-import React, { SyntheticEvent } from 'react'
-import { IFakeData } from '../../App'
+import { Component, ChangeEvent } from 'react'
 import AddEditMovie from '../addeditmovie/addeditmovie'
 import Button from '../button/button'
 import Input from '../input/input'
+import { IFakeData } from '../../App'
 import './header.scss'
 
 interface IHeaderProps {
   changeGlobalState: Function
   state: IFakeData[] | undefined
-  buttonSubmitFunction: Function
 }
 
 interface IHeaderState {
   search: string
 }
 
-class Header extends React.Component<IHeaderProps, IHeaderState> {
+class Header extends Component<IHeaderProps, IHeaderState> {
 
   constructor(props: IHeaderProps) {
     super(props)
@@ -24,7 +23,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
   }
   
-  public changeSearchState = (event: React.ChangeEvent<HTMLInputElement>) => {
+  public changeSearchState = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState((prev) => {
       return {
         search: event.target.value
@@ -33,7 +32,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
   }
 
   public addMovie():void {
-    this.props.changeGlobalState('passingElement', <AddEditMovie state={this.props.state} changeGlobalState={this.props.changeGlobalState}/>)
+    this.props.changeGlobalState('passingElement', <AddEditMovie state={this.props.state} changeGlobalState={this.props.changeGlobalState} />)
   }
 
   render(): JSX.Element {

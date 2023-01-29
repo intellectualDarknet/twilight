@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import Button from '../button/button'
 import './deleted.scss'
 
@@ -6,7 +6,7 @@ interface IDeletedProps {
   deleteEvent: Function
 }
 
-class Deleted extends React.Component<IDeletedProps> {
+class Deleted extends Component<IDeletedProps> {
 
   handleSubmit = () => {
     this.props.deleteEvent();

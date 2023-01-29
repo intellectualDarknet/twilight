@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import { IFakeData } from '../../App';
 import './toggled-movie.scss';
 
@@ -11,7 +11,7 @@ interface IToggledMovieState {
   state?: string
 }
 
-class ToggledMovie extends React.Component<IToggledMovieProps, IToggledMovieState> {
+class ToggledMovie extends Component<IToggledMovieProps, IToggledMovieState> {
 
   render(): JSX.Element {
     return (
@@ -20,7 +20,7 @@ class ToggledMovie extends React.Component<IToggledMovieProps, IToggledMovieStat
             <div>
               <span className='togglemovie__logo-color'>netflixroulette</span>
             </div>
-            <button onClick={() => {this.props.showMovieInfo()}}>Search</button>
+            <button className='myButton' onClick={() => {this.props.showMovieInfo()}}>Search</button>
           </div>
           <div className="togglemovie__flex">
             <div className="togglemovie__box">

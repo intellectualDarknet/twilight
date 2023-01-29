@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import './input.scss'
 
 interface IPropsInput {
@@ -15,7 +15,7 @@ interface IStateInput {
   state?: string
 }
 
-class Input extends React.Component<IPropsInput, IStateInput> {
+class Input extends Component<IPropsInput, IStateInput> {
   // constructor() {
   //   super()  
   // }

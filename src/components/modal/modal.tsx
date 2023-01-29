@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react';
 import AddEditMovie from '../addeditmovie/addeditmovie'
 import Congrats from '../congrats/congrats'
 import Deleted from '../delete/deleted'
@@ -14,7 +14,7 @@ interface IModalState {
   element: boolean
 }
 
-class Modal extends React.Component<IModalProps, IModalState > {
+class Modal extends Component<IModalProps, IModalState > {
 
   componentWillMount(): void {
     console.log(this.props.passingElement)

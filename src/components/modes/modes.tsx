@@ -1,11 +1,11 @@
+import { Component, SyntheticEvent } from 'react'
 import classNames from 'classnames'
-import React, { SyntheticEvent } from 'react'
 import Select from '../select/select'
 import './modes.scss'
 
 interface IModesProps {
   props?: string
-  changeSearchParams: Function
+  changeGlobalState: Function
 }
 
 interface IModesState {
@@ -13,7 +13,7 @@ interface IModesState {
   type: string
 }
 
-class Modes extends React.Component<IModesProps, IModesState> {
+class Modes extends Component<IModesProps, IModesState> {
 
   constructor(props: IModesProps) {
     super(props);
@@ -21,14 +21,14 @@ class Modes extends React.Component<IModesProps, IModesState> {
   }
 
   public toggleFilms = (event: SyntheticEvent) => {
-    this.props.changeSearchParams('type', (event.target as HTMLElement).id)
+    this.props.changeGlobalState('type', (event.target as HTMLElement).id)
     this.setState({
       type: (event.target as HTMLElement).id
     })
   }
 
   public onChangeSelect = (event: SyntheticEvent) => {
-    this.props.changeSearchParams('sorting', (event.target as HTMLSelectElement).value)
+    this.props.changeGlobalState('sorting', (event.target as HTMLSelectElement).value)
   }
 
   render(): JSX.Element {

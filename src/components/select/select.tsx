@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import './select.scss'
 
 interface ISelectProps {
@@ -16,7 +16,7 @@ interface ISelectState {
 
 }
 
-export default class Select extends React.Component<ISelectProps, ISelectState> {
+export default class Select extends Component<ISelectProps, ISelectState> {
   // constructor() {
   //   super()
   // }

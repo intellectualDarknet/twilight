@@ -1,7 +1,7 @@
-import React from 'react'
+import { Component } from 'react'
 import './congrats.scss'
 
-class Congrats extends React.Component {
+class Congrats extends Component {
   render(): JSX.Element {
     return (
       <div className="popup">

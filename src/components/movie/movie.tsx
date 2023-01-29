@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import './movie.scss';
 
 interface IMovieProps {
@@ -14,7 +14,7 @@ interface IMovieState {
   state?: string
 }
 
-class IMovie extends React.Component<IMovieProps, IMovieState> {
+class IMovie extends Component<IMovieProps, IMovieState> {
 
   render(): JSX.Element {
     return (

@@ -1,8 +1,4 @@
-import React, { ErrorInfo } from 'react'
-
-// interface IReturnType {
-//   hasError: boolean
-// }
+import { ErrorInfo, Component } from 'react'
 
 interface IErrorProps {
   sss?: string
@@ -15,7 +11,7 @@ interface IErrorState {
   errorInfo?: ErrorInfo
 }
 
-export default class ErrorBoundary extends React.Component<IErrorProps, IErrorState> {
+export default class ErrorBoundary extends Component<IErrorProps, IErrorState> {
   constructor(props: IErrorProps) {
     super(props)
 

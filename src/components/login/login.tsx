@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import Button from '../button/button'
 import Input from '../input/input'
 import './login.scss'
@@ -12,7 +12,7 @@ interface ILoginState {
   password: string
 }
 
-class Login extends React.Component<ILoginProps, ILoginState> {
+class Login extends Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props)
 

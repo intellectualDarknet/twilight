@@ -1,6 +1,6 @@
-import classNames from 'classnames'
-import React from 'react'
+import { Component } from 'react'
 import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions'
+import classNames from 'classnames'
 import './context-menu.scss'
 
 interface IStyle {
@@ -20,7 +20,7 @@ interface IContextMenuState {
   secondOption: boolean
 }
 
-class ContextMenu extends React.Component<IContextMenuProps, IContextMenuState> {
+class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
   constructor(props: IContextMenuProps) {
     super(props)
 
@@ -34,25 +34,18 @@ class ContextMenu extends React.Component<IContextMenuProps, IContextMenuState> 
 
   public param: boolean;
 
-  public mouseEnter = (event: React.MouseEvent)  => {
-    console.log('event', event)
-    console.log('event.type', event.type)
+  public changeLocalState(field: string, value: boolean) {
     this.setState((prev) => {
       return {
         ...prev,
-        [(event.target as HTMLDivElement).dataset.name!]: true
+        [field]: value
       }
     })
   }
 
   public mouseEvent = (event: React.MouseEvent)  => {
     event.type === 'mouseenter' ? this.param = true : this.param = false
-    this.setState((prev) => {
-      return {
-        ...prev,
-        [(event.target as HTMLDivElement).dataset.name!]: this.param
-      }
-    })
+    this.changeLocalState((event.target as HTMLDivElement).dataset.name!, this.param)
   }
 
   render(): JSX.Element {

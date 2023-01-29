@@ -1,13 +1,12 @@
-import React, { SyntheticEvent } from 'react'
-import { IFakeData } from '../../App'
-import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions'
+import { Component, MouseEvent } from 'react'
 import ContextMenu from '../context-menu/context-menu'
 import Modes from '../modes/modes'
 import Movie from '../movie/movie'
+import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions'
+import { IFakeData } from '../../App'
 import './body.scss'
 
 interface IBodyProps {
-  changeSearchParams: Function
   data?: IFakeData[]
   ItoContextMenuFunctions: ItoContextMenuFunctions
   showContextMenu: boolean
@@ -20,7 +19,7 @@ interface IBodyState {
   top: number;
 }
 
-class Body extends React.Component<IBodyProps, IBodyState> {
+class Body extends Component<IBodyProps, IBodyState> {
   constructor(props: IBodyProps) {
     super(props)
 
@@ -31,7 +30,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
     }
   }
 
-  public contextMenu = (event: React.MouseEvent<HTMLDivElement>, index: string) => {
+  public contextMenu = (event: MouseEvent<HTMLDivElement>, index: string) => {
     event.preventDefault();
     if (event.pageX == null && event.clientX != null) {
       const eventDoc = (event.target && (event.target as any).ownerDocument) || document;
@@ -54,7 +53,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
       }
     })
 
-    this.props.ItoContextMenuFunctions.showContextMenu(true)
+    this.props.changleGlobalState('showContextMenu', true)
   }
 
   render(): JSX.Element {
@@ -63,7 +62,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
       <>
       {this.props.showContextMenu && <ContextMenu changleGlobalState={this.props.changleGlobalState} style={{left: this.state.left, top: this.state.top}} id={this.state.idToChange} toContextMenuFunctions={this.props.ItoContextMenuFunctions }/>}
       <div className='body'>
-        <Modes changeSearchParams={this.props.changeSearchParams}/>
+        <Modes changeGlobalState={this.props.changleGlobalState} />
         <div className='body__underline'></div>
         <div className='body__found'>
           <span className='body__number'></span>

@@ -11,6 +11,7 @@ interface IBodyProps {
   data?: IFakeData[]
   ItoContextMenuFunctions: ItoContextMenuFunctions
   showContextMenu: boolean
+  changleGlobalState: Function
 }
 
 interface IBodyState {
@@ -60,7 +61,7 @@ class Body extends React.Component<IBodyProps, IBodyState> {
  
     return (
       <>
-      {this.props.showContextMenu && <ContextMenu style={{left: this.state.left, top: this.state.top}} id={this.state.idToChange} toContextMenuFunctions={this.props.ItoContextMenuFunctions }/>}
+      {this.props.showContextMenu && <ContextMenu changleGlobalState={this.props.changleGlobalState} style={{left: this.state.left, top: this.state.top}} id={this.state.idToChange} toContextMenuFunctions={this.props.ItoContextMenuFunctions }/>}
       <div className='body'>
         <Modes changeSearchParams={this.props.changeSearchParams}/>
         <div className='body__underline'></div>

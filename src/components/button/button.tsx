@@ -1,25 +1,28 @@
+import React, { Component }  from 'react'
 import classNames from 'classnames'
-import React from 'react'
 import './button.scss'
 
 interface IButtonProps {
   type: 'full' | 'hollow'
   text: string
   class?: string
-  onClick: Function
-  buttonType?: 'submit' | 'reset' | 'button' | ''
+  onClick: () => void
+  buttonType?: 'submit' | 'reset' | 'button'
 }
+const value = (a: string) => a  
 
-class Button extends React.Component<IButtonProps, IButtonProps> {
-  render(): JSX.Element {
+class Button extends Component<IButtonProps> {
+  render() {
     return (
       <button
-        type={this.props.buttonType !== '' ? this.props.buttonType : 'button'}
-        onClick={() => this.props.onClick()}
-        className={classNames(`button ${this.props.class ?? ''}`, {
-          button_full: this.props.type === 'full',
-          button_hollow: this.props.type !== 'full',
-        })}
+        type={this.props.buttonType ? this.props.buttonType : 'button'}
+        onClick={this.props.onClick}
+        className={
+          classNames(`button ${this.props.class ?? ''}`, {
+            button_full: this.props.type === 'full',
+            button_hollow: this.props.type !== 'full',
+          })
+        }
       >
         {this.props.text}
       </button>

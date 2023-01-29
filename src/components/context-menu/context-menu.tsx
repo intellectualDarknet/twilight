@@ -12,6 +12,7 @@ interface IContextMenuProps {
   toContextMenuFunctions: ItoContextMenuFunctions
   id: string | undefined
   style: IStyle
+  changleGlobalState: Function
 }
 
 interface IContextMenuState {

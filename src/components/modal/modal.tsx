@@ -7,7 +7,6 @@ import './modal.scss'
 
 interface IModalProps {
   passingElement: JSX.Element | undefined
-  toggleModal: Function
   onClickFunction: Function
 }
 

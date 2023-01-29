@@ -9,7 +9,7 @@ interface IAddEditMovieProps {
   state?: IFakeData[]
   obj?: IFakeData
   class?: string
-  submitFunction: Function
+  changeGlobalState: Function
 }
 
 interface IAddEditMovieState {
@@ -21,6 +21,17 @@ interface IAddEditMovieState {
   type: string
   duration: string
   text: string
+}
+
+interface localState {
+  id?: string
+  title?: string,
+  year?: string,
+  src?: string
+  rating?: string
+  type?: string
+  duration?: string
+  text?: string
 }
 
 export default class AddEditMovie extends React.Component<IAddEditMovieProps, IAddEditMovieState> {
@@ -39,36 +50,31 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
     }
   }
 
+  public changeLocalState = (...args: any[]) => {
+    const localState: localState = {}
+    args.filter((elem: string, index) => {if(!(index % 2)) localState[elem as keyof localState] = args[index + 1]})
+    this.setState((prev) => {
+      return {
+        ...prev,
+        ...localState,
+      }
+    })
+  }
+
   public onInputChange = (event: SyntheticEvent): void => {
     console.log((event.target as HTMLSelectElement) )
     const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name
     const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value
-    this.setState((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      }
-    })
+    this.changeLocalState(name,  value)
   }
 
   public reset = (): void => {
-    this.setState((prev) => {
-      return {
-        ...prev,
-        textarea: '',
-        title: '',
-        date: '',
-        url:  '',
-        rating: '',
-        genre: '',
-        runtime: '',
-      }
-    })
+    this.changeLocalState("textarea", "","title", "", "date", "url", "", "rating", "", "genre", "", "runtime", "")
   }
 
-  public componentDidMount(): void {
-    console.log(this.props.state)
-  }
+  // public componentDidMount(): void {
+  //   console.log(this.props.state)
+  // }
 
   public submit = (e: SyntheticEvent): void => {
     if (Object.values(this.state).includes('')) {
@@ -83,7 +89,7 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
       } else {
         state = [this.state].concat([...this.props.state!]);
       }
-      this.props.submitFunction(state)
+      this.props.changeGlobalState('data', state)
     }
   }
 
@@ -175,7 +181,7 @@ export default class AddEditMovie extends React.Component<IAddEditMovieProps, IA
 
           <div className="addeditmovie__buttons">
             <Button onClick={this.reset} type='hollow' text='reset' class='addeditmovie__button addeditmovie__reset' />
-            <Button onClick={() => {}} type='full' text='submit' class='addeditmovie__button addeditmovie__submit' />
+            <Button onClick={() => {console.log(123)}} type='full' text='submit' class='addeditmovie__button addeditmovie__submit' />
           </div>
         </div>
         </div>

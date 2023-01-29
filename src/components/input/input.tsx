@@ -17,7 +17,7 @@ interface IStateInput {
 
 class Input extends React.Component<IPropsInput, IStateInput> {
   // constructor() {
-  //   super()
+  //   super()  
   // }
 
   render(): JSX.Element {

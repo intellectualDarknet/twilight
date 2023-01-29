@@ -8,7 +8,6 @@ import './ui.scss'
 
 
 interface IUIProps {
-  toggleModal: Function
   changeSearchParams: Function
   data?: IFakeData[]
   toContextMenuFunctions: ItoContextMenuFunctions
@@ -18,6 +17,7 @@ interface IUIProps {
   buttonSubmitFunction: Function
   movieInfo: IFakeData | undefined
   showMovieF: Function
+  changeGlobalState: Function
 }
 
 interface IUIState {
@@ -33,10 +33,6 @@ class UI extends React.Component<IUIProps, IUIState> {
     }
   }
 
-  public onSearchChange = (value: string) => {
-    this.props.changeSearchParams('search', value)
-  }
-
   render(): JSX.Element {
     return (
       <>
@@ -44,8 +40,8 @@ class UI extends React.Component<IUIProps, IUIState> {
         <div className='ui__wrapper'>
           <>
           {this.props.showMovieInfo && <ToggledMovie showMovieInfo={this.props.showMovieF} elem={this.props.movieInfo}/>}
-          {!this.props.showMovieInfo && <Header state={this.props.data} showModal={this.props.toggleModal} onSearchChange={this.onSearchChange} buttonSubmitFunction={this.props.buttonSubmitFunction} />}
-          <Body showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} changeSearchParams={this.props.changeSearchParams} />
+          {!this.props.showMovieInfo && <Header changeGlobalState={this.props.changeGlobalState} state={this.props.data} buttonSubmitFunction={this.props.buttonSubmitFunction} />}
+          <Body changleGlobalState={this.props.changeGlobalState} showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} changeSearchParams={this.props.changeSearchParams} />
           </>
         </div>
       </div>

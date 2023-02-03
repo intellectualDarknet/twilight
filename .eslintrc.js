@@ -10,7 +10,7 @@ module.exports = {
     'standard-with-typescript',
     'prettier',
   ],
-  overrides: [],
+
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: ['./tsconfig.json'],
@@ -36,6 +36,9 @@ module.exports = {
     'no-duplicate-imports': 'error',
     'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 1, maxEOF: 1 }],
     '@typescript-eslint/strict-boolean-expressions': 'warn',
-    "semi": [2, "always"]
+    "semi": [2, "always"],
+    "@typescript-eslint/explicit-function-return-type": 0,
   },
+
+  overrides: []
 }

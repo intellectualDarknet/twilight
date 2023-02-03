@@ -1,6 +1,7 @@
 {
   "name": "react-lab",
   "version": "0.1.0",
+  "main": "./src/index.tsx",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.20.2",

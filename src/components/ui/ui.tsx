@@ -10,6 +10,7 @@ import './ui.scss'
 interface IUIProps {
   data?: IFakeData[]
   toContextMenuFunctions: ItoContextMenuFunctions
+  changeFilmsToShow: Function
   showContextMenu: boolean
   showMovieInfo: boolean
   globalOnClick: Function
@@ -38,7 +39,7 @@ class UI extends Component<IUIProps, IUIState> {
         <div className='ui__wrapper'>
           <>
           {this.props.showMovieInfo && <ToggledMovie showMovieInfo={this.props.showMovieF} elem={this.props.movieInfo}/>}
-          {!this.props.showMovieInfo && <Header changeGlobalState={this.props.changeGlobalState} state={this.props.data} />}
+          {!this.props.showMovieInfo && <Header changeFilmsToShow={this.props.changeFilmsToShow} changeGlobalState={this.props.changeGlobalState} state={this.props.data} />}
           <Body changleGlobalState={this.props.changeGlobalState} showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} />
           </>
         </div>

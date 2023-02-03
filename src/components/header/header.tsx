@@ -7,6 +7,7 @@ import './header.scss'
 
 interface IHeaderProps {
   changeGlobalState: Function
+  changeFilmsToShow: Function
   state: IFakeData[] | undefined
 }
 
@@ -32,7 +33,7 @@ class Header extends Component<IHeaderProps, IHeaderState> {
   }
 
   public addMovie():void {
-    this.props.changeGlobalState('passingElement', <AddEditMovie state={this.props.state} changeGlobalState={this.props.changeGlobalState} />)
+    this.props.changeGlobalState('passingElement', <AddEditMovie changeFilmsToShow={this.props.changeFilmsToShow} data={this.props.state} changeGlobalState={this.props.changeGlobalState} />)
   }
 
   render(): JSX.Element {

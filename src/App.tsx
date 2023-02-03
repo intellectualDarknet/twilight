@@ -61,7 +61,6 @@ export default class App extends Component<IAppProps, IAppState> {
   }
 
   public changeGlobalState = (...args: any[]) => {
-    console.log(this.state)
     const obj: IObj = {}
     args.filter((elem: string, index) => {if(!(index % 2)) obj[elem as keyof IObj] = args[index + 1]})
     this.setState((prev) => {
@@ -69,21 +68,19 @@ export default class App extends Component<IAppProps, IAppState> {
         ...prev,
         ...obj,
       }
-    })
-  }
-
-  public defineObjectsToShow() {
-    const filmsToShow = this.state.dataToShow!.filter((singleFilm) => singleFilm.title.includes(`${this.state.search}`) && singleFilm.type == this.state.type || this.state.type == 'all' && singleFilm.year == this.state.sorting || this.state.sorting == '')
-    this.changeGlobalState('data', filmsToShow)
-  }
-
-  public changeSearchParams = (field: string, value: string) => {
-    this.setState((prev) => {
-      return {
-        ...prev,
-        [field]: value,
+    }, () => {
+      if (args.includes('search') || args.includes('sorting') || args.includes('type')) {
+        console.log('includes')
+        this.changeFilmsToShow()
       }
     })
+  }
+
+  public changeFilmsToShow = () => {
+    console.log('search', this.state.search, "this.state.type", this.state.type , this.state.sorting, "this.state.sorting")
+    const filmsToShow = this.state.dataToShow!.filter((singleFilm) => singleFilm.title.includes(this.state.search) && (singleFilm.type == this.state.type || this.state.type == 'all') && (singleFilm.year == this.state.sorting || this.state.sorting == ''))
+    console.log("filmsToShow", filmsToShow)
+    this.changeGlobalState('data', filmsToShow)
   }
 
   public onClickFunction = (event: SyntheticEvent):void => {
@@ -94,18 +91,19 @@ export default class App extends Component<IAppProps, IAppState> {
   }
 
   public editMovie = (id: string) => {
-    const value = this.state.data?.find((elem) => elem.id === id)
-    this.changeGlobalState('passingElement', <AddEditMovie changeGlobalState={this.changeGlobalState} state={this.state.data!} obj={this.state.data![+id]} /> )
+    this.changeGlobalState('passingElement', <AddEditMovie changeFilmsToShow={this.changeFilmsToShow} changeGlobalState={this.changeGlobalState} data={this.state.dataToShow!} obj={this.state.dataToShow![+id]} /> )
   }
 
   public deleteMovie = (id: string) => {
     console.log('delete movie!')
-    const dArray = this.state.data?.filter((elem) => +elem.id != +id)
+    const dArray = this.state.dataToShow?.filter((elem) => elem.id != id)
 
     const deleteM = (): void => {
       this.changeGlobalState('passingElement', undefined, 'data', dArray)
     }
     this.changeGlobalState('passingElement', <Deleted deleteEvent={deleteM}/>, 'functionToSubmit', deleteM)
+
+    this.changeFilmsToShow()
   } 
 
   public showMovieInfo = (value?: IFakeData): void => {
@@ -127,14 +125,14 @@ export default class App extends Component<IAppProps, IAppState> {
   }
 
   componentDidMount(): void {
-    this.changeGlobalState('data', fakedata)
+    this.changeGlobalState('dataToShow', fakedata, 'data', fakedata)
   }
 
   render(): JSX.Element {
     return (
       <>
         {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement}/>}
-        <UI changeGlobalState={this.changeGlobalState} movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{ editMovie: this.editMovie, deleteMovie: this.deleteMovie}} data={this.state.data}/>
+        <UI changeFilmsToShow={this.changeFilmsToShow} changeGlobalState={this.changeGlobalState} movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{ editMovie: this.editMovie, deleteMovie: this.deleteMovie}} data={this.state.data}/>
       </>
     )
   }

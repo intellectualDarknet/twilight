@@ -7,10 +7,11 @@ import { nanoid } from 'nanoid'
 import './addeditmovie.scss'
 
 interface IAddEditMovieProps {
-  state?: IFakeData[]
+  changeFilmsToShow: Function
+  changeGlobalState: Function
+  data?: IFakeData[]
   obj?: IFakeData
   class?: string
-  changeGlobalState: Function
 }
 
 interface IAddEditMovieState {
@@ -67,7 +68,7 @@ export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEdit
     console.log("obj", this.state)
     const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name
     const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value
-    this.changeLocalState(name,  value)
+    this.changeLocalState(name, value)
   }
 
   public reset = (): void => {
@@ -80,25 +81,22 @@ export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEdit
       }
   }
 
-  // public componentDidMount(): void {
-  //   console.log(this.props.state)
-  // }
-
   public submit = (): void => {
     console.log(this.state)
     if (Object.values(this.state).includes('')) {
       console.log('not full')
     } else {
-      let state: IFakeData[];
+      let newData: IFakeData[];
       console.log('full')
       if (this.props.obj) {
-        state = this.props.state?.map((elem) => elem.id === this.props.obj?.id ? {...this.state} : elem)!
+        newData = this.props.data?.map((elem) => elem.id === this.props.obj?.id ? {...this.state} : elem)!
       } else {
-        state = [{...this.state}].concat([...this.props.state!]);
+        newData = [{...this.state}].concat([...this.props.data!]);
       }
       this.reset()
-      this.props.changeGlobalState('data', state)
+      this.props.changeGlobalState('dataToShow', newData)
       this.props.changeGlobalState('passingElement', undefined)
+      this.props.changeFilmsToShow()
     }
   }
 

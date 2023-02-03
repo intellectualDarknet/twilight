@@ -1,7 +1,6 @@
 import { ErrorInfo, Component } from 'react'
 
 interface IErrorProps {
-  sss?: string
   children: JSX.Element | JSX.Element[]
 }
 

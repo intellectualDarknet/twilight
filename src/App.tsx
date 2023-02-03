@@ -16,6 +16,7 @@ export interface IFakeData {
   text: string;
 }
 
+
 interface IAppState {
   search: string;
   passingElement: JSX.Element | undefined;

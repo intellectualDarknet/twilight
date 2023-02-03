@@ -1,25 +1,25 @@
-import { Component } from 'react'
-import Button from '../button/button'
-import Input from '../input/input'
-import './login.scss'
+import { Component } from 'react';
+import Button from '../button/button';
+import Input from '../input/input';
+import './login.scss';
 
 interface ILoginProps {
-  class?: string
+  class?: string;
 }
 
 interface ILoginState {
-  login: string
-  password: string
+  login: string;
+  password: string;
 }
 
 class Login extends Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
-    super(props)
+    super(props);
 
     this.state = {
       login: '',
       password: '',
-    }
+    };
   }
 
   public passwordChange = (value: string): void => {
@@ -27,33 +27,33 @@ class Login extends Component<ILoginProps, ILoginState> {
       return {
         ...prev,
         password: value,
-      }
-    })
-  }
+      };
+    });
+  };
 
   public loginChange = (value: string): void => {
     this.setState((prev) => {
       return {
         ...prev,
         login: value,
-      }
-    })
-    console.log(this.state)
-  }
+      };
+    });
+    console.log(this.state);
+  };
 
   public reset = (): void => {
     this.setState({
       login: '',
       password: '',
-    })
-  }
+    });
+  };
 
   public submit = (): void => {
     this.setState({
       login: '',
       password: '',
-    })
-  }
+    });
+  };
 
   render(): JSX.Element {
     return (
@@ -76,14 +76,24 @@ class Login extends Component<ILoginProps, ILoginState> {
             placeholder='password'
             type='password'
           />
-          <div className="login__button">
-            <Button onClick={this.reset} type='hollow' text='reset' class='login__button login__reset' />
-            <Button onClick={() => this.submit} type='full' text='log in' class='login__button login__in' />
+          <div className='login__button'>
+            <Button
+              onClick={this.reset}
+              type='hollow'
+              text='reset'
+              class='login__button login__reset'
+            />
+            <Button
+              onClick={() => this.submit}
+              type='full'
+              text='log in'
+              class='login__button login__in'
+            />
           </div>
         </div>
       </form>
-    )
+    );
   }
 }
 
-export default Login
+export default Login;

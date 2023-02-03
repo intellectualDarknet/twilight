@@ -1,39 +1,45 @@
-import { Component, ChangeEvent } from 'react'
-import AddEditMovie from '../addeditmovie/addeditmovie'
-import Button from '../button/button'
-import Input from '../input/input'
-import { IFakeData } from '../../App'
-import './header.scss'
+import { Component, ChangeEvent } from 'react';
+import AddEditMovie from '../addeditmovie/addeditmovie';
+import Button from '../button/button';
+import Input from '../input/input';
+import { IFakeData } from '../../App';
+import './header.scss';
 
 interface IHeaderProps {
-  changeGlobalState: Function
-  changeFilmsToShow: Function
-  state: IFakeData[] | undefined
+  changeGlobalState: Function;
+  changeFilmsToShow: Function;
+  state: IFakeData[] | undefined;
 }
 
 interface IHeaderState {
-  search: string
+  search: string;
 }
 
 class Header extends Component<IHeaderProps, IHeaderState> {
-
   constructor(props: IHeaderProps) {
-    super(props)
+    super(props);
     this.state = {
-      search: ''
-    }
+      search: '',
+    };
   }
-  
+
   public changeSearchState = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState((prev) => {
       return {
-        search: event.target.value
-      }
-    })
-  }
+        search: event.target.value,
+      };
+    });
+  };
 
-  public addMovie():void {
-    this.props.changeGlobalState('passingElement', <AddEditMovie changeFilmsToShow={this.props.changeFilmsToShow} data={this.props.state} changeGlobalState={this.props.changeGlobalState} />)
+  public addMovie(): void {
+    this.props.changeGlobalState(
+      'passingElement',
+      <AddEditMovie
+        changeFilmsToShow={this.props.changeFilmsToShow}
+        data={this.props.state}
+        changeGlobalState={this.props.changeGlobalState}
+      />,
+    );
   }
 
   render(): JSX.Element {
@@ -57,12 +63,16 @@ class Header extends Component<IHeaderProps, IHeaderState> {
               onInputChange={this.changeSearchState}
               placeholder={'What do you want to watch?'}
             />
-            <Button onClick={() => this.props.changeGlobalState('search', this.state.search)} type='full' text='SEARCH' />
+            <Button
+              onClick={() => this.props.changeGlobalState('search', this.state.search)}
+              type='full'
+              text='SEARCH'
+            />
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Header
+export default Header;

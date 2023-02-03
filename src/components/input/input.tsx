@@ -1,23 +1,23 @@
-import { Component } from 'react'
-import './input.scss'
+import { Component } from 'react';
+import './input.scss';
 
 interface IPropsInput {
-  placeholder?: string
-  type?: string
-  onInputChange?: Function
-  value?: string
-  description?: string
-  class?: null | undefined | string
+  placeholder?: string;
+  type?: string;
+  onInputChange?: Function;
+  value?: string;
+  description?: string;
+  class?: null | undefined | string;
   name?: string;
   defaultValue?: string;
 }
 interface IStateInput {
-  state?: string
+  state?: string;
 }
 
 class Input extends Component<IPropsInput, IStateInput> {
   // constructor() {
-  //   super()  
+  //   super()
   // }
 
   render(): JSX.Element {
@@ -36,8 +36,8 @@ class Input extends Component<IPropsInput, IStateInput> {
           ></input>
         </div>
       </>
-    )
+    );
   }
 }
 
-export default Input
+export default Input;

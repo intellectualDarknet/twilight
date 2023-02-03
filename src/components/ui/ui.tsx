@@ -1,52 +1,63 @@
-import { Component } from 'react'
-import Body from '../body/body'
-import Header from '../header/header'
-import ToggledMovie from '../togged-movie/toggled-movie'
-import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions'
-import { IFakeData } from '../../App'
-import './ui.scss'
-
-
+import { Component } from 'react';
+import Body from '../body/body';
+import Header from '../header/header';
+import ToggledMovie from '../togged-movie/toggled-movie';
+import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions';
+import { IFakeData } from '../../App';
+import './ui.scss';
 interface IUIProps {
-  data?: IFakeData[]
-  toContextMenuFunctions: ItoContextMenuFunctions
-  changeFilmsToShow: Function
-  showContextMenu: boolean
-  showMovieInfo: boolean
-  globalOnClick: Function
-  movieInfo: IFakeData | undefined
-  showMovieF: Function
-  changeGlobalState: Function
+  data?: IFakeData[];
+  toContextMenuFunctions: ItoContextMenuFunctions;
+  changeFilmsToShow: Function;
+  showContextMenu: boolean;
+  showMovieInfo: boolean;
+  globalOnClick: Function;
+  movieInfo: IFakeData | undefined;
+  showMovieF: Function;
+  changeGlobalState: Function;
 }
 
 interface IUIState {
-  passingElement: JSX.Element | undefined
+  passingElement: JSX.Element | undefined;
 }
 
 class UI extends Component<IUIProps, IUIState> {
   constructor(props: IUIProps) {
-    super(props)
+    super(props);
 
     this.state = {
-      passingElement: undefined
-    }
+      passingElement: undefined,
+    };
   }
 
   render(): JSX.Element {
     return (
       <>
-      <div onClick={(e) => this.props.globalOnClick(e)} className='ui'>
-        <div className='ui__wrapper'>
-          <>
-          {this.props.showMovieInfo && <ToggledMovie showMovieInfo={this.props.showMovieF} elem={this.props.movieInfo}/>}
-          {!this.props.showMovieInfo && <Header changeFilmsToShow={this.props.changeFilmsToShow} changeGlobalState={this.props.changeGlobalState} state={this.props.data} />}
-          <Body changleGlobalState={this.props.changeGlobalState} showContextMenu={this.props.showContextMenu} ItoContextMenuFunctions={this.props.toContextMenuFunctions} data={this.props.data} />
-          </>
+        <div onClick={(e) => this.props.globalOnClick(e)} className='ui'>
+          <div className='ui__wrapper'>
+            <>
+              {this.props.showMovieInfo && (
+                <ToggledMovie showMovieInfo={this.props.showMovieF} elem={this.props.movieInfo} />
+              )}
+              {!this.props.showMovieInfo && (
+                <Header
+                  changeFilmsToShow={this.props.changeFilmsToShow}
+                  changeGlobalState={this.props.changeGlobalState}
+                  state={this.props.data}
+                />
+              )}
+              <Body
+                changleGlobalState={this.props.changeGlobalState}
+                showContextMenu={this.props.showContextMenu}
+                ItoContextMenuFunctions={this.props.toContextMenuFunctions}
+                data={this.props.data}
+              />
+            </>
+          </div>
         </div>
-      </div>
-    </>
-    )
+      </>
+    );
   }
 }
 
-export default UI
+export default UI;

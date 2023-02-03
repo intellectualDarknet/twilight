@@ -1,9 +1,9 @@
-import { MouseEvent, SyntheticEvent, Component } from 'react'
-import Modal from './components/modal/modal'
-import UI from './components/ui/ui'
-import AddEditMovie from './components/addeditmovie/addeditmovie'
-import Deleted from './components/delete/deleted'
-import { fakedata } from './assets/fakeResponse/fake'
+import { MouseEvent, SyntheticEvent, Component } from 'react';
+import Modal from './components/modal/modal';
+import UI from './components/ui/ui';
+import AddEditMovie from './components/addeditmovie/addeditmovie';
+import Deleted from './components/delete/deleted';
+import { fakedata } from './assets/fakeResponse/fake';
 
 export interface IFakeData {
   id: string;
@@ -15,8 +15,6 @@ export interface IFakeData {
   duration: string;
   text: string;
 }
-
-
 interface IAppState {
   search: string;
   passingElement: JSX.Element | undefined;
@@ -35,21 +33,21 @@ interface IAppProps {
 }
 
 interface IObj {
-  search?: '',
-  passingElement?: undefined,
-  type?: 'all',
-  sorting?: '',
-  showContextMenu?: false,
-  showMovieInfo?: false,
-  MovieInfo?: undefined,
-  functionToSubmit?: () => {}
+  search?: '';
+  passingElement?: undefined;
+  type?: 'all';
+  sorting?: '';
+  showContextMenu?: false;
+  showMovieInfo?: false;
+  MovieInfo?: undefined;
+  functionToSubmit?: () => {};
 }
 
 export default class App extends Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
-    super(props)
+    super(props);
 
-    this.state = { 
+    this.state = {
       search: '',
       passingElement: undefined,
       type: 'all',
@@ -57,84 +55,129 @@ export default class App extends Component<IAppProps, IAppState> {
       showContextMenu: false,
       showMovieInfo: false,
       MovieInfo: undefined,
-      functionToSubmit: () => {}
-    }
+      functionToSubmit: () => {},
+    };
   }
 
   public changeGlobalState = (...args: any[]) => {
-    const obj: IObj = {}
-    args.filter((elem: string, index) => {if(!(index % 2)) obj[elem as keyof IObj] = args[index + 1]})
-    this.setState((prev) => {
-      return {
-        ...prev,
-        ...obj,
-      }
-    }, () => {
-      if (args.includes('search') || args.includes('sorting') || args.includes('type')) {
-        console.log('includes')
-        this.changeFilmsToShow()
-      }
-    })
-  }
+    const obj: IObj = {};
+    args.filter((elem: string, index) => {
+      if (!(index % 2)) obj[elem as keyof IObj] = args[index + 1];
+    });
+    this.setState(
+      (prev) => {
+        return {
+          ...prev,
+          ...obj,
+        };
+      },
+      () => {
+        if (args.includes('search') || args.includes('sorting') || args.includes('type')) {
+          console.log('includes');
+          this.changeFilmsToShow();
+        }
+      },
+    );
+  };
 
   public changeFilmsToShow = () => {
-    console.log('search', this.state.search, "this.state.type", this.state.type , this.state.sorting, "this.state.sorting")
-    const filmsToShow = this.state.dataToShow!.filter((singleFilm) => singleFilm.title.includes(this.state.search) && (singleFilm.type == this.state.type || this.state.type == 'all') && (singleFilm.year == this.state.sorting || this.state.sorting == ''))
-    console.log("filmsToShow", filmsToShow)
-    this.changeGlobalState('data', filmsToShow)
-  }
+    console.log(
+      'search',
+      this.state.search,
+      'this.state.type',
+      this.state.type,
+      this.state.sorting,
+      'this.state.sorting',
+    );
+    const filmsToShow = this.state.dataToShow!.filter(
+      (singleFilm) =>
+        singleFilm.title.includes(this.state.search) &&
+        (singleFilm.type === this.state.type || this.state.type === 'all') &&
+        (singleFilm.year === this.state.sorting || this.state.sorting === ''),
+    );
+    console.log('filmsToShow', filmsToShow);
+    this.changeGlobalState('data', filmsToShow);
+  };
 
-  public onClickFunction = (event: SyntheticEvent):void => {
-    const target = event.target as HTMLElement
-    if (!target.closest('.popup') || target.closest('.cross')) {
-      this.changeGlobalState('passingElement', undefined)
+  public onClickFunction = (event: SyntheticEvent): void => {
+    const target = event.target as HTMLElement;
+    if (target.closest('.popup') == null || target.closest('.cross') != null) {
+      this.changeGlobalState('passingElement', undefined);
     }
-  }
+  };
 
   public editMovie = (id: string) => {
-    this.changeGlobalState('passingElement', <AddEditMovie changeFilmsToShow={this.changeFilmsToShow} changeGlobalState={this.changeGlobalState} data={this.state.dataToShow!} obj={this.state.dataToShow![+id]} /> )
-  }
+    this.changeGlobalState(
+      'passingElement',
+      <AddEditMovie
+        changeFilmsToShow={this.changeFilmsToShow}
+        changeGlobalState={this.changeGlobalState}
+        data={this.state.dataToShow}
+        obj={this.state.dataToShow![+id]}
+      />,
+    );
+  };
 
   public deleteMovie = (id: string) => {
-    console.log('delete movie!')
-    const dArray = this.state.dataToShow?.filter((elem) => elem.id != id)
+    console.log('delete movie!');
+    const dArray = this.state.dataToShow?.filter((elem) => elem.id != id);
 
     const deleteM = (): void => {
-      this.changeGlobalState('passingElement', undefined, 'data', dArray)
-    }
-    this.changeGlobalState('passingElement', <Deleted deleteEvent={deleteM}/>, 'functionToSubmit', deleteM)
+      this.changeGlobalState('passingElement', undefined, 'data', dArray);
+    };
+    this.changeGlobalState(
+      'passingElement',
+      <Deleted deleteEvent={deleteM} />,
+      'functionToSubmit',
+      deleteM,
+    );
 
-    this.changeFilmsToShow()
-  } 
+    this.changeFilmsToShow();
+  };
 
   public showMovieInfo = (value?: IFakeData): void => {
-    const showMovieInfoValue = value ? true : false
-    const movieInfoValue = value ? value : this.state.MovieInfo 
-    this.changeGlobalState('showMovieInfo', showMovieInfoValue, "MovieInfo", movieInfoValue )
-  }
+    const showMovieInfoValue = value != null;
+    const movieInfoValue = value != null ? value : this.state.MovieInfo;
+    this.changeGlobalState('showMovieInfo', showMovieInfoValue, 'MovieInfo', movieInfoValue);
+  };
 
   public globalOnClick = (event: MouseEvent) => {
-    console.log(this.state.showContextMenu)
+    console.log(this.state.showContextMenu);
     if (this.state.showContextMenu) {
-      this.changeGlobalState('showContextMenu', false)
+      this.changeGlobalState('showContextMenu', false);
     } else {
-      const closest = (event.target as HTMLElement).closest('.movie')
-      if (closest) {
-        this.showMovieInfo(fakedata[+((closest as HTMLElement).dataset.id! as string)])
+      const closest = (event.target as HTMLElement).closest('.movie');
+      if (closest != null) {
+        this.showMovieInfo(fakedata[+(closest as HTMLElement).dataset.id!]);
       }
     }
-  }
+  };
 
   componentDidMount(): void {
-    this.changeGlobalState('dataToShow', fakedata, 'data', fakedata)
+    this.changeGlobalState('dataToShow', fakedata, 'data', fakedata);
   }
 
   render(): JSX.Element {
     return (
       <>
-        {this.state.passingElement && <Modal onClickFunction={this.onClickFunction} passingElement={this.state.passingElement}/>}
-        <UI changeFilmsToShow={this.changeFilmsToShow} changeGlobalState={this.changeGlobalState} movieInfo={this.state.MovieInfo} showMovieF={this.showMovieInfo} showMovieInfo={this.state.showMovieInfo} globalOnClick={this.globalOnClick} showContextMenu={this.state.showContextMenu} toContextMenuFunctions={{ editMovie: this.editMovie, deleteMovie: this.deleteMovie}} data={this.state.data}/>
+        {this.state.passingElement != null && (
+          <Modal
+            onClickFunction={this.onClickFunction}
+            passingElement={this.state.passingElement}
+          />
+        )}
+        <UI
+          changeFilmsToShow={this.changeFilmsToShow}
+          changeGlobalState={this.changeGlobalState}
+          movieInfo={this.state.MovieInfo}
+          showMovieF={this.showMovieInfo}
+          showMovieInfo={this.state.showMovieInfo}
+          globalOnClick={this.globalOnClick}
+          showContextMenu={this.state.showContextMenu}
+          toContextMenuFunctions={{ editMovie: this.editMovie, deleteMovie: this.deleteMovie }}
+          data={this.state.data}
+        />
       </>
-    )
+    );
   }
 }

@@ -19,7 +19,7 @@ class Modes extends Component<IModesProps, IModesState> {
     this.state = { type: 'all' };
   }
 
-  public toggleFilms = (event: SyntheticEvent) => {
+  public toggleFilms = (event: SyntheticEvent): void => {
     this.props.changeGlobalState('type', (event.target as HTMLElement).id);
     this.setState({
       type: (event.target as HTMLElement).id,

@@ -40,7 +40,7 @@ interface IObj {
   showContextMenu?: false;
   showMovieInfo?: false;
   MovieInfo?: undefined;
-  functionToSubmit?: () => {};
+  functionToSubmit?: Function;
 }
 
 export default class App extends Component<IAppProps, IAppState> {
@@ -55,13 +55,13 @@ export default class App extends Component<IAppProps, IAppState> {
       showContextMenu: false,
       showMovieInfo: false,
       MovieInfo: undefined,
-      functionToSubmit: () => {},
+      functionToSubmit: Function,
     };
   }
 
   public changeGlobalState = (...args: any[]) => {
     const obj: IObj = {};
-    args.filter((elem: string, index) => {
+    args.forEach((elem: string, index) => {
       if (!(index % 2)) obj[elem as keyof IObj] = args[index + 1];
     });
     this.setState(
@@ -120,7 +120,7 @@ export default class App extends Component<IAppProps, IAppState> {
 
   public deleteMovie = (id: string) => {
     console.log('delete movie!');
-    const dArray = this.state.dataToShow?.filter((elem) => elem.id != id);
+    const dArray = this.state.dataToShow?.filter((elem) => +elem.id !== +id);
 
     const deleteM = (): void => {
       this.changeGlobalState('passingElement', undefined, 'data', dArray);

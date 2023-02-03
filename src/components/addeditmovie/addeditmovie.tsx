@@ -54,7 +54,7 @@ export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEdit
 
   public changeLocalState = (...args: any[]) => {
     const localState: localState = {};
-    args.filter((elem: string, index) => {
+    args.forEach((elem: string, index) => {
       if (!(index % 2)) localState[elem as keyof localState] = args[index + 1];
     });
     this.setState((prev) => {
@@ -105,6 +105,7 @@ export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEdit
       let newData: IFakeData[];
       console.log('full');
       if (this.props.obj != null) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         newData = this.props.data?.map((elem) =>
           elem.id === this.props.obj?.id ? { ...this.state } : elem,
         )!;

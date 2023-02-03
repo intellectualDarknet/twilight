@@ -38,13 +38,13 @@ class Body extends Component<IBodyProps, IBodyState> {
       const body = eventDoc.body;
 
       event.pageX =
-        event.clientX +
-        ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0) -
-        ((doc && doc.clientLeft) || (body && body.clientLeft) || 0);
+        +event.clientX +
+        +(doc?.scrollLeft || body?.scrollLeft || 0) -
+        +(doc?.clientLeft || body?.clientLeft || 0);
       event.pageY =
-        event.clientY +
-        ((doc && doc.scrollTop) || (body && body.scrollTop) || 0) -
-        ((doc && doc.clientTop) || (body && body.clientTop) || 0);
+        +event.clientY +
+        +(doc?.scrollTop || body?.scrollTop || 0) -
+        (doc?.clientTop || body?.clientTop || 0);
     }
     this.setState((prev) => {
       return {
@@ -77,18 +77,17 @@ class Body extends Component<IBodyProps, IBodyState> {
             movies found
           </div>
           <div className='body__movies'>
-            {this.props.data != null &&
-              this.props.data.map((elem) => (
-                <Movie
-                  key={elem.id}
-                  index={(+elem.id).toString()}
-                  onContextMenu={this.contextMenu}
-                  year={elem.year}
-                  src={elem.src}
-                  name={elem.title}
-                  type={elem.type}
-                />
-              ))}
+            {this.props.data?.map((elem) => (
+              <Movie
+                key={elem.id}
+                index={(+elem.id).toString()}
+                onContextMenu={this.contextMenu}
+                year={elem.year}
+                src={elem.src}
+                name={elem.title}
+                type={elem.type}
+              />
+            ))}
           </div>
         </div>
       </>

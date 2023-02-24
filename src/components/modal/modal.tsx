@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Component, SyntheticEvent } from 'react';
+import ReactDOM from 'react-dom';
 import { IFakeData } from '../../App';
 import Button from '../button/button';
 import Input from '../input/input';
@@ -12,6 +13,7 @@ interface IModalProps {
   currentMovie: IFakeData | null;
   addMovie: (movie: IFakeData) => void;
   closeModal: () => void;
+  onClickFunction: (event: SyntheticEvent) => void;
 }
 
 const defaultForm = {
@@ -38,9 +40,13 @@ interface IModalState {
   };
 }
 
+const modalRoot = document.getElementById('modal')!;
+
 class Modal extends Component<IModalProps, IModalState> {
+  el: HTMLDivElement;
   constructor(props: IModalProps) {
     super(props);
+
     this.state = {
       form: this.props.currentMovie ?? { ...defaultForm, id: nanoid() },
     };
@@ -48,6 +54,8 @@ class Modal extends Component<IModalProps, IModalState> {
     this.onInputChange = this.onInputChange.bind(this);
     this.resetForm = this.resetForm.bind(this);
     this.submit = this.submit.bind(this);
+
+    this.el = document.createElement('div');
   }
 
   public onInputChange(event: SyntheticEvent) {
@@ -78,11 +86,19 @@ class Modal extends Component<IModalProps, IModalState> {
     this.props.closeModal();
   }
 
+  componentDidMount(): void {
+    modalRoot.appendChild(this.el);
+  }
+
+  componentWillUnmount(): void {
+    modalRoot.removeChild(this.el);
+  }
+
   render() {
-    return (
+    return ReactDOM.createPortal(
       <>
         <div className='blur' />
-        <div className='modal'>
+        <div className='modal' onClick={this.props.onClickFunction}>
           <div className='popup'>
             <form onSubmit={this.submit} className='addeditmovie'>
               <div className='addeditmovie__wrapper'>
@@ -190,7 +206,8 @@ class Modal extends Component<IModalProps, IModalState> {
             </form>
           </div>
         </div>
-      </>
+      </>,
+      this.el,
     );
   }
 }

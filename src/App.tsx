@@ -1,7 +1,6 @@
 import { SyntheticEvent, Component } from 'react';
 import Modal from './components/modal/modal';
 import UI from './components/ui/ui';
-// import AddEditMovie from './components/addeditmovie/addeditmovie';
 import { fakedata } from './assets/fakeResponse/fake';
 
 export interface IFakeData {
@@ -16,10 +15,7 @@ export interface IFakeData {
 }
 
 interface IAppState {
-  search: string;
   passingElement: JSX.Element | undefined;
-  type: string;
-  sorting: string;
   data: IFakeData[];
   showMovieInfo: boolean;
   MovieInfo: IFakeData | undefined;
@@ -39,10 +35,8 @@ export default class App extends Component<IAppProps, IAppState> {
     // context
     // либо настройки либо первичные данные
     this.state = {
-      search: '',
       passingElement: undefined,
-      type: 'all',
-      sorting: '',
+
       showMovieInfo: false,
       MovieInfo: undefined,
       functionToSubmit: Function,
@@ -52,13 +46,11 @@ export default class App extends Component<IAppProps, IAppState> {
     };
   }
 
-  public changeFilmsToShow = () => {};
-
   public onClickFunction = (event: SyntheticEvent): void => {
     const target = event.target as HTMLElement;
     if (target.closest('.popup') == null || target.closest('.cross') != null) {
       this.setState({
-        passingElement: undefined,
+        isModalOpen: false,
       });
     }
   };
@@ -135,42 +127,6 @@ export default class App extends Component<IAppProps, IAppState> {
     this.openModal();
   }
 
-  changeType = (value: string) => {
-    this.setState({
-      type: value,
-    });
-  };
-
-  changeSorting = (value: string) => {
-    this.setState({
-      type: value,
-    });
-  };
-
-  // public calculateData = (movie: IFakeData, newInfo: any) => {
-  //   let newData;
-  //   if (movie != null) {
-  //     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-  //     newData = this.state.data?.map((elem) => (elem.id === movie?.id ? { ...newInfo } : elem))!;
-  //     this.EditSingleMovie(newData);
-  //   } else {
-  //     newData = [{ ...newInfo }].concat([...this.state.data]);
-  //     this.addSingleMovie(newData);
-  //   }
-  // };
-
-  // public addSingleMovie = (newData: IFakeData[]) => {
-  //   this.setState({
-  //     data: newData,
-  //   });
-  // };
-
-  // public EditSingleMovie = (newData: IFakeData[]) => {
-  //   this.setState({
-  //     data: newData,
-  //   });
-  // };
-
   render() {
     return (
       <>
@@ -185,6 +141,7 @@ export default class App extends Component<IAppProps, IAppState> {
         />
         {this.state.isModalOpen ? (
           <Modal
+            onClickFunction={this.onClickFunction}
             currentMovie={this.state.currentMovie}
             closeModal={this.closeModal}
             addMovie={this.addMovie}

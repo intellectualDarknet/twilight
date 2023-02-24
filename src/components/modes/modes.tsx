@@ -6,7 +6,6 @@ import './modes.scss';
 interface IModesProps {
   changeType: (value: string) => void;
   changeSorting: (value: string) => void;
-  props?: string;
 }
 
 interface IModesState {

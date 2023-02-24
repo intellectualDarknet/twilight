@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import classNames from 'classnames';
 import './context-menu.scss';
+import ReactDOM from 'react-dom';
 
 interface IStyle {
   left: number;
@@ -20,7 +21,10 @@ interface IContextMenuState {
   secondOption: boolean;
 }
 
+const contextMenuDiv = document.getElementById('contextMenu')!;
+
 class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
+  el: HTMLDivElement;
   constructor(props: IContextMenuProps) {
     super(props);
 
@@ -30,6 +34,8 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
     };
 
     this.param = false;
+
+    this.el = document.createElement('div');
   }
 
   public param: boolean;
@@ -48,8 +54,16 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
     this.changeLocalState((event.target as HTMLDivElement).dataset.name!, this.param);
   };
 
+  componentDidMount(): void {
+    contextMenuDiv.appendChild(this.el);
+  }
+
+  componentWillUnmount(): void {
+    contextMenuDiv.removeChild(this.el);
+  }
+
   render() {
-    return (
+    return ReactDOM.createPortal(
       <div style={this.props.style} className='contextmenu'>
         <div
           data-name={'firstOption'}
@@ -84,7 +98,8 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
         >
           Delete
         </div>
-      </div>
+      </div>,
+      this.el,
     );
   }
 }

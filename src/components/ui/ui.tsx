@@ -11,9 +11,6 @@ interface IUIProps {
   movieInfo: IFakeData | undefined;
   showMovieF: Function;
 
-  changeType: (value: string) => void;
-  changeSorting: (value: string) => void;
-
   openModal: () => void;
   findMovieForEditing: (id: string) => void;
   deleteMovie: (id: string) => void;
@@ -22,6 +19,9 @@ interface IUIProps {
 interface IUIState {
   passingElement: JSX.Element | undefined;
   dateToShow: IFakeData[] | undefined;
+  type: string;
+  sorting: string;
+  search: string;
 }
 
 class UI extends Component<IUIProps, IUIState> {
@@ -31,17 +31,44 @@ class UI extends Component<IUIProps, IUIState> {
     this.state = {
       passingElement: undefined,
       dateToShow: this.props.data,
+      search: '',
+      type: 'all',
+      sorting: '',
     };
 
     this.searchFilmByName = this.searchFilmByName.bind(this);
   }
 
-  public searchFilmByName(naming: string) {
-    const filteredMovie = this.props.data?.filter((elem) => elem.title.includes(naming));
+  public changeMoviesToShow = (
+    search: string = this.state.search,
+    type: string = this.state.type,
+    sorting: string = this.state.sorting,
+  ) => {
+    const filteredMovie = this.props.data
+      ?.filter((elem: IFakeData) => elem.title.includes(search))
+      .filter((elem: IFakeData) => (type === 'all' ? elem : elem.type.includes(type)))
+      .filter((elem: IFakeData) => (sorting === '' ? elem : elem.year.includes(sorting)));
+
     this.setState({
+      search,
+      type,
+      sorting,
       dateToShow: filteredMovie,
     });
+    console.log(this.state);
+  };
+
+  public searchFilmByName(naming: string) {
+    this.changeMoviesToShow(naming);
   }
+
+  changeType = (type: string) => {
+    this.changeMoviesToShow(undefined, type);
+  };
+
+  changeSorting = (year: string) => {
+    this.changeMoviesToShow(undefined, undefined, year);
+  };
 
   componentDidUpdate(prevProps: Readonly<IUIProps>): void {
     if (prevProps.data !== this.props.data) {
@@ -68,8 +95,8 @@ class UI extends Component<IUIProps, IUIState> {
                 />
               )}
               <Body
-                changeType={this.props.changeType}
-                changeSorting={this.props.changeSorting}
+                changeType={this.changeType}
+                changeSorting={this.changeSorting}
                 openModal={this.props.openModal}
                 findMovieForEditing={this.props.findMovieForEditing}
                 deleteMovie={this.props.deleteMovie}

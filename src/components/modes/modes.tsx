@@ -4,8 +4,9 @@ import Select from '../select/select';
 import './modes.scss';
 
 interface IModesProps {
+  changeType: (value: string) => void;
+  changeSorting: (value: string) => void;
   props?: string;
-  changeGlobalState: Function;
 }
 
 interface IModesState {
@@ -20,17 +21,17 @@ class Modes extends Component<IModesProps, IModesState> {
   }
 
   public toggleFilms = (event: SyntheticEvent): void => {
-    this.props.changeGlobalState('type', (event.target as HTMLElement).id);
+    this.props.changeType((event.target as HTMLElement).id);
     this.setState({
       type: (event.target as HTMLElement).id,
     });
   };
 
   public onChangeSelect = (event: SyntheticEvent) => {
-    this.props.changeGlobalState('sorting', (event.target as HTMLSelectElement).value);
+    this.props.changeSorting((event.target as HTMLSelectElement).value);
   };
 
-  render(): JSX.Element {
+  render() {
     return (
       <div className='modes'>
         <div className='modes__flex'>

@@ -66,8 +66,6 @@ export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEdit
   };
 
   public onInputChange = (event: SyntheticEvent): void => {
-    console.log(event.target as HTMLSelectElement);
-    console.log('obj', this.state);
     const name = (event.target as HTMLInputElement | HTMLTextAreaElement).name;
     const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
     this.changeLocalState(name, value);
@@ -114,12 +112,10 @@ export default class AddEditMovie extends Component<IAddEditMovieProps, IAddEdit
       }
       this.reset();
       this.props.changeGlobalState('dataToShow', newData);
-      this.props.changeGlobalState('passingElement', undefined);
-      this.props.changeFilmsToShow();
     }
   };
 
-  render(): JSX.Element {
+  render() {
     return (
       <div className='popup'>
         <form

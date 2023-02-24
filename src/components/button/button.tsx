@@ -6,7 +6,7 @@ interface IButtonProps {
   type: 'full' | 'hollow';
   text: string;
   class?: string;
-  onClick: (e?: SyntheticEvent) => void;
+  onClick?: (e?: SyntheticEvent) => void;
   buttonType?: 'submit' | 'reset' | 'button';
 }
 class Button extends Component<IButtonProps> {

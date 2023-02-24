@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions';
 import classNames from 'classnames';
 import './context-menu.scss';
 
@@ -9,10 +8,11 @@ interface IStyle {
 }
 
 interface IContextMenuProps {
-  toContextMenuFunctions: ItoContextMenuFunctions;
   id: string | undefined;
   style: IStyle;
-  changleGlobalState: Function;
+  openModal: () => void;
+  deleteMovie: (id: string) => void;
+  findMovieForEditing: (id: string) => void;
 }
 
 interface IContextMenuState {
@@ -48,7 +48,7 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
     this.changeLocalState((event.target as HTMLDivElement).dataset.name!, this.param);
   };
 
-  render(): JSX.Element {
+  render() {
     return (
       <div style={this.props.style} className='contextmenu'>
         <div
@@ -59,9 +59,7 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
           onMouseEnter={(e: React.MouseEvent) => {
             this.mouseEvent(e);
           }}
-          onClick={() => {
-            this.props.toContextMenuFunctions.editMovie(this.props.id);
-          }}
+          onClick={() => this.props.findMovieForEditing(this.props.id!)}
           className={classNames('contextmenu__elem', {
             contextmenu__mouseenter: this.state.firstOption,
           })}
@@ -78,7 +76,7 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
             this.mouseEvent(e);
           }}
           onClick={() => {
-            this.props.toContextMenuFunctions.deleteMovie(this.props.id);
+            this.props.deleteMovie(this.props.id!);
           }}
           className={classNames('contextmenu__elem', {
             contextmenu__mouseenter: this.state.secondOption,

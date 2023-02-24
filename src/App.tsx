@@ -1,8 +1,7 @@
-import { MouseEvent, SyntheticEvent, Component } from 'react';
+import { SyntheticEvent, Component } from 'react';
 import Modal from './components/modal/modal';
 import UI from './components/ui/ui';
-import AddEditMovie from './components/addeditmovie/addeditmovie';
-import Deleted from './components/delete/deleted';
+// import AddEditMovie from './components/addeditmovie/addeditmovie';
 import { fakedata } from './assets/fakeResponse/fake';
 
 export interface IFakeData {
@@ -15,168 +14,183 @@ export interface IFakeData {
   duration: string;
   text: string;
 }
+
 interface IAppState {
   search: string;
   passingElement: JSX.Element | undefined;
   type: string;
   sorting: string;
-  data?: IFakeData[];
-  dataToShow?: IFakeData[];
-  showContextMenu: boolean;
+  data: IFakeData[];
   showMovieInfo: boolean;
   MovieInfo: IFakeData | undefined;
   functionToSubmit: Function;
+  isModalOpen: boolean;
+  currentMovie: IFakeData | null;
 }
 
 interface IAppProps {
   prop?: string;
 }
 
-interface IObj {
-  search?: '';
-  passingElement?: undefined;
-  type?: 'all';
-  sorting?: '';
-  showContextMenu?: false;
-  showMovieInfo?: false;
-  MovieInfo?: undefined;
-  functionToSubmit?: Function;
-}
-
 export default class App extends Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
     super(props);
 
+    // context
+    // либо настройки либо первичные данные
     this.state = {
       search: '',
       passingElement: undefined,
       type: 'all',
       sorting: '',
-      showContextMenu: false,
       showMovieInfo: false,
       MovieInfo: undefined,
       functionToSubmit: Function,
+      isModalOpen: false,
+      data: [],
+      currentMovie: null,
     };
   }
 
-  public changeGlobalState = (...args: any[]) => {
-    const obj: IObj = {};
-    args.forEach((elem: string, index) => {
-      if (!(index % 2)) obj[elem as keyof IObj] = args[index + 1];
-    });
-    this.setState(
-      (prev) => {
-        return {
-          ...prev,
-          ...obj,
-        };
-      },
-      () => {
-        if (args.includes('search') || args.includes('sorting') || args.includes('type')) {
-          console.log('includes');
-          this.changeFilmsToShow();
-        }
-      },
-    );
-  };
-
-  public changeFilmsToShow = () => {
-    console.log(
-      'search',
-      this.state.search,
-      'this.state.type',
-      this.state.type,
-      this.state.sorting,
-      'this.state.sorting',
-    );
-    const filmsToShow = this.state.dataToShow!.filter(
-      (singleFilm) =>
-        singleFilm.title.includes(this.state.search) &&
-        (singleFilm.type === this.state.type || this.state.type === 'all') &&
-        (singleFilm.year === this.state.sorting || this.state.sorting === ''),
-    );
-    console.log('filmsToShow', filmsToShow);
-    this.changeGlobalState('data', filmsToShow);
-  };
+  public changeFilmsToShow = () => {};
 
   public onClickFunction = (event: SyntheticEvent): void => {
     const target = event.target as HTMLElement;
     if (target.closest('.popup') == null || target.closest('.cross') != null) {
-      this.changeGlobalState('passingElement', undefined);
+      this.setState({
+        passingElement: undefined,
+      });
     }
   };
 
-  public editMovie = (id: string) => {
-    this.changeGlobalState(
-      'passingElement',
-      <AddEditMovie
-        changeFilmsToShow={this.changeFilmsToShow}
-        changeGlobalState={this.changeGlobalState}
-        data={this.state.dataToShow}
-        obj={this.state.dataToShow![+id]}
-      />,
-    );
-  };
-
   public deleteMovie = (id: string) => {
-    console.log('delete movie!');
-    const dArray = this.state.dataToShow?.filter((elem) => +elem.id !== +id);
-
-    const deleteM = (): void => {
-      this.changeGlobalState('passingElement', undefined, 'data', dArray);
-    };
-    this.changeGlobalState(
-      'passingElement',
-      <Deleted deleteEvent={deleteM} />,
-      'functionToSubmit',
-      deleteM,
-    );
-
-    this.changeFilmsToShow();
+    const newMovies = this.state.data.filter((elem) => elem.id !== id);
+    this.setState({
+      data: newMovies,
+    });
   };
 
   public showMovieInfo = (value?: IFakeData): void => {
     const showMovieInfoValue = value != null;
     const movieInfoValue = value != null ? value : this.state.MovieInfo;
-    this.changeGlobalState('showMovieInfo', showMovieInfoValue, 'MovieInfo', movieInfoValue);
-  };
-
-  public globalOnClick = (event: MouseEvent) => {
-    console.log(this.state.showContextMenu);
-    if (this.state.showContextMenu) {
-      this.changeGlobalState('showContextMenu', false);
-    } else {
-      const closest = (event.target as HTMLElement).closest('.movie');
-      if (closest != null) {
-        this.showMovieInfo(fakedata[+(closest as HTMLElement).dataset.id!]);
-      }
-    }
+    this.setState({
+      showMovieInfo: showMovieInfoValue,
+      MovieInfo: movieInfoValue,
+    });
   };
 
   componentDidMount(): void {
-    this.changeGlobalState('dataToShow', fakedata, 'data', fakedata);
+    this.setState({
+      data: fakedata,
+    });
   }
 
-  render(): JSX.Element {
+  public addMovie = (movie: IFakeData) => {
+    const newDate: IFakeData[] = [...this.state.data, movie];
+    this.setState({
+      data: newDate,
+    });
+  };
+
+  // change films to show
+  public updateMovie = (movie: IFakeData) => {
+    const newData = this.state.data.map((elem) => {
+      if (elem.id === movie.id) {
+        return movie;
+      }
+      return elem;
+    });
+    this.setState({
+      data: newData,
+      currentMovie: null,
+    });
+  };
+
+  public findMovieForEditing = (id: string) => {
+    const movieToEdit = this.state.data.find((elem) => elem.id === id);
+    console.log('movieToEdit', movieToEdit);
+    this.setState({
+      currentMovie: movieToEdit!,
+    });
+    this.openModal();
+  };
+
+  public closeModal = () => {
+    this.setState({
+      isModalOpen: false,
+    });
+  };
+
+  public openModal = () => {
+    this.setState({
+      isModalOpen: true,
+    });
+  };
+
+  public openModalWithData(id: string) {
+    const movie = this.state.data.find((elem) => elem.id === id);
+    this.setState({
+      currentMovie: movie!,
+    });
+    this.openModal();
+  }
+
+  changeType = (value: string) => {
+    this.setState({
+      type: value,
+    });
+  };
+
+  changeSorting = (value: string) => {
+    this.setState({
+      type: value,
+    });
+  };
+
+  // public calculateData = (movie: IFakeData, newInfo: any) => {
+  //   let newData;
+  //   if (movie != null) {
+  //     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+  //     newData = this.state.data?.map((elem) => (elem.id === movie?.id ? { ...newInfo } : elem))!;
+  //     this.EditSingleMovie(newData);
+  //   } else {
+  //     newData = [{ ...newInfo }].concat([...this.state.data]);
+  //     this.addSingleMovie(newData);
+  //   }
+  // };
+
+  // public addSingleMovie = (newData: IFakeData[]) => {
+  //   this.setState({
+  //     data: newData,
+  //   });
+  // };
+
+  // public EditSingleMovie = (newData: IFakeData[]) => {
+  //   this.setState({
+  //     data: newData,
+  //   });
+  // };
+
+  render() {
     return (
       <>
-        {this.state.passingElement != null && (
-          <Modal
-            onClickFunction={this.onClickFunction}
-            passingElement={this.state.passingElement}
-          />
-        )}
         <UI
-          changeFilmsToShow={this.changeFilmsToShow}
-          changeGlobalState={this.changeGlobalState}
+          findMovieForEditing={this.findMovieForEditing}
+          deleteMovie={this.deleteMovie}
+          openModal={this.openModal}
           movieInfo={this.state.MovieInfo}
           showMovieF={this.showMovieInfo}
           showMovieInfo={this.state.showMovieInfo}
-          globalOnClick={this.globalOnClick}
-          showContextMenu={this.state.showContextMenu}
-          toContextMenuFunctions={{ editMovie: this.editMovie, deleteMovie: this.deleteMovie }}
           data={this.state.data}
         />
+        {this.state.isModalOpen ? (
+          <Modal
+            currentMovie={this.state.currentMovie}
+            closeModal={this.closeModal}
+            addMovie={this.addMovie}
+            updateMovie={this.updateMovie}
+          />
+        ) : null}
       </>
     );
   }

@@ -11,7 +11,7 @@ class Deleted extends Component<IDeletedProps> {
     this.props.deleteEvent();
   };
 
-  render(): JSX.Element {
+  render() {
     return (
       <div className='popup'>
         <div className='deleted'>

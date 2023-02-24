@@ -1,14 +1,13 @@
 import { Component, ChangeEvent } from 'react';
-import AddEditMovie from '../addeditmovie/addeditmovie';
 import Button from '../button/button';
 import Input from '../input/input';
 import { IFakeData } from '../../App';
 import './header.scss';
 
 interface IHeaderProps {
-  changeGlobalState: Function;
-  changeFilmsToShow: Function;
   state: IFakeData[] | undefined;
+  openModal: () => void;
+  searchFilmByName: (naming: string) => void;
 }
 
 interface IHeaderState {
@@ -21,28 +20,20 @@ class Header extends Component<IHeaderProps, IHeaderState> {
     this.state = {
       search: '',
     };
+    this.searchFilms = this.searchFilms.bind(this);
   }
 
   public changeSearchState = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState((prev) => {
-      return {
-        search: event.target.value,
-      };
+    this.setState({
+      search: event.target.value,
     });
   };
 
-  public addMovie(): void {
-    this.props.changeGlobalState(
-      'passingElement',
-      <AddEditMovie
-        changeFilmsToShow={this.props.changeFilmsToShow}
-        data={this.props.state}
-        changeGlobalState={this.props.changeGlobalState}
-      />,
-    );
+  public searchFilms(): void {
+    this.props.searchFilmByName(this.state.search);
   }
 
-  render(): JSX.Element {
+  render() {
     return (
       <div className='header'>
         <div className='header__wrapper'>
@@ -51,7 +42,7 @@ class Header extends Component<IHeaderProps, IHeaderState> {
               <span className='header__logo-color'>netflix</span>roulette
             </div>
             <Button
-              onClick={() => this.addMovie()}
+              onClick={this.props.openModal}
               type='hollow'
               text='+ add movie'
               class='header__button'
@@ -63,11 +54,7 @@ class Header extends Component<IHeaderProps, IHeaderState> {
               onInputChange={this.changeSearchState}
               placeholder={'What do you want to watch?'}
             />
-            <Button
-              onClick={() => this.props.changeGlobalState('search', this.state.search)}
-              type='full'
-              text='SEARCH'
-            />
+            <Button onClick={this.searchFilms} type='full' text='SEARCH' />
           </div>
         </div>
       </div>

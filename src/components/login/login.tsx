@@ -55,7 +55,7 @@ class Login extends Component<ILoginProps, ILoginState> {
     });
   };
 
-  render(): JSX.Element {
+  render() {
     return (
       <form className='login'>
         <div className='login__wrapper'>

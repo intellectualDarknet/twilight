@@ -16,7 +16,7 @@ export default class Select extends Component<ISelectProps> {
   //   super()
   // }
 
-  render(): JSX.Element {
+  render() {
     return (
       <div className='select'>
         {this.props.descr && <div className={this.props.descrClass}>{this.props.descr}</div>}

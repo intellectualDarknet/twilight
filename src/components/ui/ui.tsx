@@ -2,23 +2,26 @@ import { Component } from 'react';
 import Body from '../body/body';
 import Header from '../header/header';
 import ToggledMovie from '../togged-movie/toggled-movie';
-import { ItoContextMenuFunctions } from '../../interfaces/toContextMenuFunctions';
 import { IFakeData } from '../../App';
 import './ui.scss';
+
 interface IUIProps {
   data?: IFakeData[];
-  toContextMenuFunctions: ItoContextMenuFunctions;
-  changeFilmsToShow: Function;
-  showContextMenu: boolean;
   showMovieInfo: boolean;
-  globalOnClick: Function;
   movieInfo: IFakeData | undefined;
   showMovieF: Function;
-  changeGlobalState: Function;
+
+  changeType: (value: string) => void;
+  changeSorting: (value: string) => void;
+
+  openModal: () => void;
+  findMovieForEditing: (id: string) => void;
+  deleteMovie: (id: string) => void;
 }
 
 interface IUIState {
   passingElement: JSX.Element | undefined;
+  dateToShow: IFakeData[] | undefined;
 }
 
 class UI extends Component<IUIProps, IUIState> {
@@ -27,13 +30,31 @@ class UI extends Component<IUIProps, IUIState> {
 
     this.state = {
       passingElement: undefined,
+      dateToShow: this.props.data,
     };
+
+    this.searchFilmByName = this.searchFilmByName.bind(this);
   }
 
-  render(): JSX.Element {
+  public searchFilmByName(naming: string) {
+    const filteredMovie = this.props.data?.filter((elem) => elem.title.includes(naming));
+    this.setState({
+      dateToShow: filteredMovie,
+    });
+  }
+
+  componentDidUpdate(prevProps: Readonly<IUIProps>): void {
+    if (prevProps.data !== this.props.data) {
+      this.setState({
+        dateToShow: this.props.data,
+      });
+    }
+  }
+
+  render() {
     return (
       <>
-        <div onClick={(e) => this.props.globalOnClick(e)} className='ui'>
+        <div className='ui'>
           <div className='ui__wrapper'>
             <>
               {this.props.showMovieInfo && (
@@ -41,16 +62,18 @@ class UI extends Component<IUIProps, IUIState> {
               )}
               {!this.props.showMovieInfo && (
                 <Header
-                  changeFilmsToShow={this.props.changeFilmsToShow}
-                  changeGlobalState={this.props.changeGlobalState}
+                  searchFilmByName={this.searchFilmByName}
+                  openModal={this.props.openModal}
                   state={this.props.data}
                 />
               )}
               <Body
-                changleGlobalState={this.props.changeGlobalState}
-                showContextMenu={this.props.showContextMenu}
-                ItoContextMenuFunctions={this.props.toContextMenuFunctions}
-                data={this.props.data}
+                changeType={this.props.changeType}
+                changeSorting={this.props.changeSorting}
+                openModal={this.props.openModal}
+                findMovieForEditing={this.props.findMovieForEditing}
+                deleteMovie={this.props.deleteMovie}
+                data={this.state.dateToShow}
               />
             </>
           </div>

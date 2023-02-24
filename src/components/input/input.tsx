@@ -20,7 +20,7 @@ class Input extends Component<IPropsInput, IStateInput> {
   //   super()
   // }
 
-  render(): JSX.Element {
+  render() {
     return (
       <>
         <div className='entry'>

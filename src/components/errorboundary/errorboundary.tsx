@@ -25,7 +25,7 @@ export default class ErrorBoundary extends Component<IErrorProps, IErrorState> {
     });
   }
 
-  render(): JSX.Element | JSX.Element[] {
+  render() {
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>;
     }

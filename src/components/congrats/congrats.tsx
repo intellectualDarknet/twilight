@@ -2,7 +2,7 @@ import { Component } from 'react';
 import './congrats.scss';
 
 class Congrats extends Component {
-  render(): JSX.Element {
+  render() {
     return (
       <div className='popup'>
         <div className='congrats'>

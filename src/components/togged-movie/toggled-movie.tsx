@@ -12,7 +12,7 @@ interface IToggledMovieState {
 }
 
 class ToggledMovie extends Component<IToggledMovieProps, IToggledMovieState> {
-  render(): JSX.Element {
+  render() {
     return (
       <div className='togglemovie'>
         <div className='togglemovie__logo'>

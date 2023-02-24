@@ -15,7 +15,7 @@ interface IMovieState {
 }
 
 class IMovie extends Component<IMovieProps, IMovieState> {
-  render(): JSX.Element {
+  render() {
     return (
       <div data-id={this.props.index} className='movie'>
         <div

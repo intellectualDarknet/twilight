@@ -14,6 +14,7 @@ interface IContextMenuProps {
   openModal: () => void;
   deleteMovie: (id: string) => void;
   findMovieForEditing: (id: string) => void;
+  changeContextMenu: (obj: any) => void;
 }
 
 interface IContextMenuState {
@@ -73,7 +74,10 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
           onMouseEnter={(e: React.MouseEvent) => {
             this.mouseEvent(e);
           }}
-          onClick={() => this.props.findMovieForEditing(this.props.id!)}
+          onClick={() => {
+            this.props.findMovieForEditing(this.props.id!);
+            this.props.changeContextMenu({ showContextMenu: false });
+          }}
           className={classNames('contextmenu__elem', {
             contextmenu__mouseenter: this.state.firstOption,
           })}
@@ -91,6 +95,7 @@ class ContextMenu extends Component<IContextMenuProps, IContextMenuState> {
           }}
           onClick={() => {
             this.props.deleteMovie(this.props.id!);
+            this.props.changeContextMenu({ showContextMenu: false });
           }}
           className={classNames('contextmenu__elem', {
             contextmenu__mouseenter: this.state.secondOption,

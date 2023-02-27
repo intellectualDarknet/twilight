@@ -2,6 +2,7 @@ import { SyntheticEvent, Component } from 'react';
 import Modal from './components/modal/modal';
 import UI from './components/ui/ui';
 import { fakedata } from './assets/fakeResponse/fake';
+import ContextMenu from './components/context-menu/context-menu';
 
 export interface IFakeData {
   id: string;
@@ -14,6 +15,20 @@ export interface IFakeData {
   text: string;
 }
 
+export interface IContextMenu {
+  showContextMenu?: boolean;
+  idToChange?: string;
+  left?: number;
+  top?: number;
+}
+
+const NullContextMeny = {
+  showContextMenu: false,
+  idToChange: '0',
+  left: 0,
+  top: 0,
+};
+
 interface IAppState {
   passingElement: JSX.Element | undefined;
   data: IFakeData[];
@@ -21,6 +36,7 @@ interface IAppState {
   MovieInfo: IFakeData | undefined;
   functionToSubmit: Function;
   isModalOpen: boolean;
+  contextMenu: IContextMenu;
   currentMovie: IFakeData | null;
 }
 
@@ -36,7 +52,7 @@ export default class App extends Component<IAppProps, IAppState> {
     // либо настройки либо первичные данные
     this.state = {
       passingElement: undefined,
-
+      contextMenu: NullContextMeny,
       showMovieInfo: false,
       MovieInfo: undefined,
       functionToSubmit: Function,
@@ -48,6 +64,10 @@ export default class App extends Component<IAppProps, IAppState> {
 
   public onClickFunction = (event: SyntheticEvent): void => {
     const target = event.target as HTMLElement;
+    console.log('target', target);
+    this.setState({
+      contextMenu: NullContextMeny,
+    });
     if (target.closest('.popup') == null || target.closest('.cross') != null) {
       this.setState({
         isModalOpen: false,
@@ -119,6 +139,14 @@ export default class App extends Component<IAppProps, IAppState> {
     });
   };
 
+  changeContextMenu = (obj: IContextMenu) => {
+    const newContextMenu = { ...this.state.contextMenu, ...obj };
+    this.setState({
+      contextMenu: newContextMenu,
+    });
+    console.log(this.state.contextMenu);
+  };
+
   public openModalWithData(id: string) {
     const movie = this.state.data.find((elem) => elem.id === id);
     this.setState({
@@ -132,6 +160,7 @@ export default class App extends Component<IAppProps, IAppState> {
       <>
         <UI
           findMovieForEditing={this.findMovieForEditing}
+          changeContextMenu={this.changeContextMenu}
           deleteMovie={this.deleteMovie}
           openModal={this.openModal}
           movieInfo={this.state.MovieInfo}
@@ -148,6 +177,17 @@ export default class App extends Component<IAppProps, IAppState> {
             updateMovie={this.updateMovie}
           />
         ) : null}
+
+        {(this.state.contextMenu.showContextMenu ?? false) && (
+          <ContextMenu
+            changeContextMenu={this.changeContextMenu}
+            findMovieForEditing={this.findMovieForEditing}
+            deleteMovie={this.deleteMovie}
+            openModal={this.openModal}
+            style={{ left: this.state.contextMenu.left!, top: this.state.contextMenu.top! }}
+            id={this.state.contextMenu.idToChange}
+          />
+        )}
       </>
     );
   }

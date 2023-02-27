@@ -2,7 +2,7 @@ import { Component } from 'react';
 import Body from '../body/body';
 import Header from '../header/header';
 import ToggledMovie from '../togged-movie/toggled-movie';
-import { IFakeData } from '../../App';
+import { IContextMenu, IFakeData } from '../../App';
 import './ui.scss';
 
 interface IUIProps {
@@ -10,7 +10,7 @@ interface IUIProps {
   showMovieInfo: boolean;
   movieInfo: IFakeData | undefined;
   showMovieF: Function;
-
+  changeContextMenu: (obj: IContextMenu) => void;
   openModal: () => void;
   findMovieForEditing: (id: string) => void;
   deleteMovie: (id: string) => void;
@@ -62,6 +62,10 @@ class UI extends Component<IUIProps, IUIState> {
     this.changeMoviesToShow(naming);
   }
 
+  closeContextMenu = () => {
+    this.props.changeContextMenu({ showContextMenu: false });
+  };
+
   changeType = (type: string) => {
     this.changeMoviesToShow(undefined, type);
   };
@@ -81,7 +85,7 @@ class UI extends Component<IUIProps, IUIState> {
   render() {
     return (
       <>
-        <div className='ui'>
+        <div className='ui' onClick={this.closeContextMenu}>
           <div className='ui__wrapper'>
             <>
               {this.props.showMovieInfo && (
@@ -95,6 +99,7 @@ class UI extends Component<IUIProps, IUIState> {
                 />
               )}
               <Body
+                changeContextMenu={this.props.changeContextMenu}
                 changeType={this.changeType}
                 changeSorting={this.changeSorting}
                 openModal={this.props.openModal}

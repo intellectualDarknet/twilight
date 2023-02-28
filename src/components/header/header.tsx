@@ -39,7 +39,7 @@ class Header extends Component<IHeaderProps, IHeaderState> {
         <div className='header__wrapper'>
           <div className='header__logo'>
             <div>
-              <span className='header__logo-color'>netflix</span>roulette
+              <span className='header__logo-color'>twilight</span>
             </div>
             <Button
               onClick={this.props.openModal}
